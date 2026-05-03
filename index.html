@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>CFP Quiz — ชุดวิชาที่ 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700;800&family=Sarabun:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f5f0;
+  --surface: #ffffff;
+  --card: #fdfcfa;
+  --border: #e8e2d9;
+  --text: #1a1a2e;
+  --muted: #8a8478;
+  --accent: #2d6a4f;
+  --accent2: #e76f51;
+  --accent3: #457b9d;
+  --gold: #e9c46a;
+  --red: #e63946;
+  --green: #2d6a4f;
+  --locked: #c4b5a0;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-serif; min-height: 100vh; overflow-x: hidden; }
+.screen { display: none; flex-direction: column; align-items: center; min-height: 100vh; }
+.screen.active { display: flex; }
+
+/* HOME */
+#home-screen { background: var(--bg); padding: 0; }
+.home-hero { width: 100%; background: var(--text); color: white; padding: 48px 24px 36px; text-align: center; position: relative; overflow: hidden; }
+.home-hero::before { content: ''; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; border-radius: 50%; background: rgba(255,255,255,0.04); }
+.hero-badge { display: inline-block; background: rgba(233,196,106,0.2); border: 1px solid rgba(233,196,106,0.4); color: var(--gold); font-size: 0.72rem; font-weight: 600; letter-spacing: 1.5px; padding: 4px 14px; border-radius: 20px; margin-bottom: 16px; text-transform: uppercase; }
+.hero-title { font-size: 2.4rem; font-weight: 800; line-height: 1.1; margin-bottom: 8px; }
+.hero-sub { font-family: 'Sarabun', sans-serif; color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-bottom: 24px; }
+.hero-stats { display: flex; justify-content: center; gap: 24px; }
+.hero-stat { text-align: center; }
+.hero-stat-val { font-size: 1.4rem; font-weight: 700; color: var(--gold); }
+.hero-stat-label { font-size: 0.7rem; color: rgba(255,255,255,0.5); font-family: 'Sarabun', sans-serif; }
+.chapter-list { width: 100%; max-width: 480px; padding: 24px 16px; display: flex; flex-direction: column; gap: 12px; }
+.chapter-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; cursor: pointer; transition: all 0.2s; box-shadow: var(--shadow); display: flex; align-items: center; gap: 16px; }
+.chapter-card:active { transform: scale(0.98); box-shadow: none; }
+.chapter-icon { width: 52px; height: 52px; border-radius: 14px; background: var(--text); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+.chapter-info { flex: 1; }
+.chapter-name { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+.chapter-meta { font-size: 0.75rem; color: var(--muted); font-family: 'Sarabun', sans-serif; }
+.chapter-arrow { color: var(--muted); font-size: 1.2rem; }
+
+/* LEVEL SELECT */
+#level-screen { background: var(--bg); padding: 0; }
+.level-header { width: 100%; background: var(--text); color: white; padding: 20px 20px 24px; display: flex; align-items: center; gap: 14px; }
+.back-btn { width: 38px; height: 38px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: white; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s; }
+.back-btn:active { transform: scale(0.9); }
+.back-btn.dark { border-color: var(--border); color: var(--text); }
+.level-header-info { flex: 1; }
+.level-header-title { font-size: 1rem; font-weight: 700; }
+.level-header-sub { font-size: 0.75rem; color: rgba(255,255,255,0.5); font-family: 'Sarabun', sans-serif; }
+.level-list { width: 100%; max-width: 480px; padding: 20px 16px; display: flex; flex-direction: column; gap: 10px; }
+.level-item { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; cursor: pointer; transition: all 0.18s; display: flex; align-items: center; gap: 14px; box-shadow: var(--shadow); }
+.level-item:active:not(.locked) { transform: scale(0.98); }
+.level-item.locked { cursor: not-allowed; opacity: 0.7; background: #f5f0e8; }
+.level-num { width: 36px; height: 36px; border-radius: 10px; background: var(--text); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
+.level-item.locked .level-num { background: var(--locked); }
+.level-item-info { flex: 1; }
+.level-item-name { font-size: 0.88rem; font-weight: 600; margin-bottom: 2px; }
+.level-item-meta { font-size: 0.72rem; color: var(--muted); font-family: 'Sarabun', sans-serif; }
+.level-status { font-size: 0.7rem; padding: 3px 10px; border-radius: 20px; font-weight: 600; flex-shrink: 0; }
+.status-free { background: rgba(45,106,79,0.12); color: var(--green); }
+.status-locked { background: rgba(196,181,160,0.2); color: var(--locked); }
+.lock-tooltip { width: calc(100% - 32px); max-width: 448px; background: #fff8ed; border: 1px solid #f4d090; border-radius: 12px; padding: 14px 18px; font-size: 0.82rem; color: #8a6020; font-family: 'Sarabun', sans-serif; line-height: 1.6; text-align: center; margin-bottom: 24px; }
+
+/* GAME */
+#game-screen { background: var(--bg); padding: 0; justify-content: flex-start; }
+.game-topbar { width: 100%; background: var(--surface); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100; }
+.game-title-wrap { flex: 1; }
+.game-title { font-size: 0.85rem; font-weight: 700; line-height: 1.2; }
+.game-subtitle { font-size: 0.7rem; color: var(--muted); font-family: 'Sarabun', sans-serif; }
+.timer-box { background: var(--text); color: white; border-radius: 10px; padding: 6px 12px; text-align: center; min-width: 52px; }
+.timer-val { font-size: 1.1rem; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1; }
+.timer-lbl { font-size: 0.55rem; color: rgba(255,255,255,0.5); letter-spacing: 1px; }
+.timer-box.urgent { background: var(--red); animation: pulse 0.5s ease infinite alternate; }
+@keyframes pulse { from{opacity:1} to{opacity:0.6} }
+.game-body { width: 100%; max-width: 480px; padding: 16px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+
+/* Sort */
+.sort-instruction { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; font-size: 0.8rem; color: var(--muted); font-family: 'Sarabun', sans-serif; text-align: center; }
+.sort-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; align-items: stretch; }
+.sort-slot { background: var(--surface); border: 1.5px dashed var(--border); border-radius: 12px; padding: 8px; min-height: 72px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 6px; transition: all 0.2s; position: relative; }
+.sort-slot.drag-over { border-color: var(--accent); background: rgba(45,106,79,0.05); box-shadow: 0 0 0 3px rgba(45,106,79,0.1); }
+.slot-num { width: 22px; height: 22px; border-radius: 6px; background: var(--bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.68rem; font-weight: 700; color: var(--muted); flex-shrink: 0; }
+.slot-card { width: 100%; font-size: 0.75rem; display: flex; align-items: center; justify-content: center; flex: 1; }
+.slot-empty-hint { font-size: 0.68rem; color: var(--muted); font-family: 'Sarabun', sans-serif; opacity: 0.6; text-align: center; line-height: 1.4; }
+.sort-card { background: white; border: 1.5px solid var(--border); border-radius: 10px; padding: 6px 8px; font-size: 0.72rem; font-weight: 600; cursor: grab; user-select: none; touch-action: none; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; text-align: center; word-break: keep-all; line-height: 1.4; }
+.sort-card:active,.sort-card.dragging { transform: scale(1.04) rotate(1deg); box-shadow: var(--shadow-lg); cursor: grabbing; border-color: var(--accent3); }
+.sort-card-grip { color: var(--muted); font-size: 0.7rem; flex-shrink: 0; }
+
+/* Result badge on slot/dropzone */
+.slot-badge { position: absolute; top: 4px; left: 4px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; z-index: 10; pointer-events: none; }
+.slot-badge.correct { background: var(--green); color: white; }
+.slot-badge.wrong { background: var(--red); color: white; }
+.dz-badge { position: absolute; top: 4px; left: 4px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; z-index: 10; pointer-events: none; }
+.dz-badge.correct { background: var(--green); color: white; }
+.dz-badge.wrong { background: var(--red); color: white; }
+
+/* Show answer btn */
+.show-answer-btn { width: 100%; padding: 13px; background: rgba(69,123,157,0.1); border: 1.5px solid rgba(69,123,157,0.3); border-radius: 12px; color: var(--accent3); font-family: 'Prompt', sans-serif; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.show-answer-btn:active { transform: scale(0.98); }
+.show-answer-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Group */
+.columns-header { display: grid; gap: 8px; }
+.col-head { border-radius: 10px; padding: 10px 6px; text-align: center; font-size: 0.75rem; font-weight: 700; line-height: 1.3; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+.ch0 { background: rgba(45,106,79,0.12); border: 1.5px solid rgba(45,106,79,0.3); color: #1b5e40; }
+.ch1 { background: rgba(231,111,81,0.12); border: 1.5px solid rgba(231,111,81,0.3); color: #b84a2a; }
+.ch2 { background: rgba(69,123,157,0.12); border: 1.5px solid rgba(69,123,157,0.3); color: #2c5f7a; }
+.ch3 { background: rgba(233,196,106,0.2); border: 1.5px solid rgba(233,196,106,0.5); color: #7a5e10; }
+.drop-zones { display: grid; gap: 8px; }
+.drop-zone { border-radius: 12px; padding: 8px; min-height: 70px; display: flex; flex-direction: column; gap: 6px; transition: all 0.2s; position: relative; }
+/* 5-col special handling */
+.col-5up { font-size: 0.68rem !important; padding: 6px 4px !important; min-height: 38px !important; }
+.dz-5up { min-height: 56px !important; }
+#result-dz-wrap.cols-5 { overflow: visible; }
+#result-dz-wrap.cols-5 .drop-zone { min-height: 50px; }
+.dz0 { background: rgba(45,106,79,0.05); border: 1.5px dashed rgba(45,106,79,0.2); }
+.dz1 { background: rgba(231,111,81,0.05); border: 1.5px dashed rgba(231,111,81,0.2); }
+.dz2 { background: rgba(69,123,157,0.05); border: 1.5px dashed rgba(69,123,157,0.2); }
+.dz3 { background: rgba(233,196,106,0.08); border: 1.5px dashed rgba(233,196,106,0.3); }
+.dz0.drag-over { background: rgba(45,106,79,0.1); border-color: var(--accent); }
+.dz1.drag-over { background: rgba(231,111,81,0.1); border-color: var(--accent2); }
+.dz2.drag-over { background: rgba(69,123,157,0.1); border-color: var(--accent3); }
+.dz3.drag-over { background: rgba(233,196,106,0.15); border-color: var(--gold); }
+.dz-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 0.68rem; color: var(--muted); opacity: 0.6; pointer-events: none; white-space: nowrap; font-family: 'Sarabun', sans-serif; }
+.word-bank-label { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; font-family: 'Sarabun', sans-serif; text-align: center; }
+.word-bank { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; min-height: 60px; box-shadow: var(--shadow); }
+.word-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 14px; font-size: 0.82rem; font-weight: 600; cursor: grab; user-select: none; transition: all 0.15s; touch-action: none; }
+.word-card:active,.word-card.dragging { cursor: grabbing; transform: scale(1.06) rotate(1.5deg); box-shadow: var(--shadow-lg); border-color: var(--accent3); background: white; }
+.word-card.placed-0 { border-color: rgba(45,106,79,0.5); background: rgba(45,106,79,0.06); }
+.word-card.placed-1 { border-color: rgba(231,111,81,0.5); background: rgba(231,111,81,0.06); }
+.word-card.placed-2 { border-color: rgba(69,123,157,0.5); background: rgba(69,123,157,0.06); }
+.word-card.placed-3 { border-color: rgba(233,196,106,0.6); background: rgba(233,196,106,0.1); }
+.submit-wrap { padding-bottom: 24px; }
+.submit-btn { width: 100%; padding: 15px; background: var(--text); color: white; border: none; border-radius: 14px; font-family: 'Prompt', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: var(--shadow); }
+.submit-btn:active { transform: scale(0.98); }
+
+/* Ghost */
+.drag-ghost { position: fixed; pointer-events: none; z-index: 9999; background: white; border: 2px solid var(--accent3); border-radius: 10px; padding: 8px 14px; font-family: 'Prompt', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--text); box-shadow: var(--shadow-lg); transform: translate(-50%,-50%) scale(1.06) rotate(1.5deg); white-space: nowrap; }
+
+/* RESULT */
+#result-screen { background: var(--bg); padding: 0; justify-content: flex-start; }
+.result-header { width: 100%; background: var(--text); color: white; padding: 28px 20px 32px; text-align: center; }
+.result-emoji { font-size: 56px; margin-bottom: 8px; display: block; animation: bounceIn 0.5s ease; }
+@keyframes bounceIn { 0%{transform:scale(0)} 60%{transform:scale(1.2)} 100%{transform:scale(1)} }
+.result-heading { font-size: 1.5rem; font-weight: 800; margin-bottom: 4px; }
+.result-level-name { font-size: 0.8rem; color: rgba(255,255,255,0.5); font-family: 'Sarabun', sans-serif; }
+.result-body { width: 100%; max-width: 480px; padding: 20px 16px; display: flex; flex-direction: column; gap: 14px; overflow: visible; }
+.score-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; box-shadow: var(--shadow); }
+.score-stat { text-align: center; }
+.score-val { font-size: 1.5rem; font-weight: 800; line-height: 1; }
+.score-label { font-size: 0.7rem; color: var(--muted); font-family: 'Sarabun', sans-serif; margin-top: 4px; }
+.review-section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: visible; box-shadow: var(--shadow); }
+.review-tabs { display: flex; border-bottom: 1px solid var(--border); }
+.review-tab { flex: 1; padding: 12px; text-align: center; font-size: 0.82rem; font-weight: 600; cursor: pointer; border: none; background: transparent; font-family: 'Prompt', sans-serif; color: var(--muted); transition: all 0.2s; }
+.review-tab.active { color: var(--text); border-bottom: 2px solid var(--text); }
+.review-content { padding: 14px; display: none; }
+.review-content.active { display: block; }
+.review-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.82rem; }
+.review-item:last-child { border-bottom: none; }
+.review-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.dot-correct { background: var(--green); }
+.dot-wrong { background: var(--red); }
+.review-word { font-weight: 600; flex: 1; font-size: 0.8rem; }
+.review-ans { font-family: 'Sarabun', sans-serif; font-size: 0.8rem; text-align: right; }
+.review-ans.correct { color: var(--green); }
+.review-ans.wrong { color: var(--red); }
+.review-ans.correct-answer { color: var(--green); font-weight: 600; }
+.explain-btn { width: 100%; padding: 13px; background: rgba(45,106,79,0.08); border: 1.5px solid rgba(45,106,79,0.25); border-radius: 12px; color: var(--green); font-family: 'Prompt', sans-serif; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.explain-btn:active { transform: scale(0.98); }
+.result-btns { display: flex; flex-direction: column; gap: 10px; padding-bottom: 32px; }
+.btn-primary { width: 100%; padding: 14px; background: var(--text); color: white; border: none; border-radius: 14px; font-family: 'Prompt', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: var(--shadow); }
+.btn-secondary { width: 100%; padding: 14px; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 14px; font-family: 'Prompt', sans-serif; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.btn-primary:active,.btn-secondary:active { transform: scale(0.98); }
+
+/* Modal */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9000; display: none; align-items: flex-end; justify-content: center; }
+.modal-overlay.open { display: flex; }
+.modal-sheet { width: 100%; max-width: 480px; background: white; border-radius: 20px 20px 0 0; padding: 24px 20px 40px; animation: slideUp 0.3s ease; max-height: 75vh; overflow-y: auto; }
+@keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+.modal-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 20px; }
+.modal-title { font-size: 1rem; font-weight: 700; margin-bottom: 16px; }
+.explain-item { padding: 12px 0; border-bottom: 1px solid var(--border); font-family: 'Sarabun', sans-serif; }
+.explain-item:last-child { border-bottom: none; }
+.explain-term { font-weight: 600; font-size: 0.88rem; margin-bottom: 4px; color: var(--text); font-family: 'Prompt', sans-serif; }
+.explain-text { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
+.modal-close { width: 100%; margin-top: 20px; padding: 13px; background: var(--text); color: white; border: none; border-radius: 12px; font-family: 'Prompt', sans-serif; font-weight: 600; font-size: 0.9rem; cursor: pointer; }
+.lock-modal-inner { text-align: left; }
+.lock-icon { font-size: 48px; margin-bottom: 12px; text-align: center; }
+.lock-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; }
+.lock-desc { font-size: 0.82rem; color: var(--muted); font-family: 'Sarabun', sans-serif; line-height: 1.7; margin-bottom: 16px; }
+.lock-contact-btn { display: block; width: 100%; background: var(--text); color: white; border: none; border-radius: 12px; padding: 13px; font-family: 'Prompt', sans-serif; font-weight: 700; font-size: 0.9rem; cursor: pointer; margin-bottom: 10px; }
+.feedback-label { font-size: 0.8rem; font-weight: 600; margin-bottom: 5px; display: block; font-family: 'Sarabun', sans-serif; }
+.feedback-textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 12px; font-family: 'Sarabun', sans-serif; font-size: 0.83rem; line-height: 1.6; resize: none; background: var(--card); color: var(--text); margin-bottom: 4px; }
+.feedback-textarea:focus { outline: none; border-color: var(--accent3); }
+.feedback-charcount { font-size: 0.72rem; color: var(--muted); font-family: 'Sarabun', sans-serif; margin-bottom: 14px; }
+.feedback-charcount.ok { color: var(--accent); font-weight: 600; }
+.feedback-row { display: flex; gap: 10px; margin-bottom: 12px; }
+.feedback-field { flex: 1; }
+.feedback-select { width: 100%; border: 1.5px solid var(--border); border-radius: 10px; padding: 9px 10px; font-family: 'Sarabun', sans-serif; font-size: 0.83rem; background: var(--card); color: var(--text); appearance: none; }
+.feedback-select:focus { outline: none; border-color: var(--accent3); }
+.feedback-input { width: 100%; border: 1.5px solid var(--border); border-radius: 10px; padding: 9px 12px; font-family: 'Sarabun', sans-serif; font-size: 0.83rem; background: var(--card); color: var(--text); }
+.feedback-input:focus { outline: none; border-color: var(--accent3); }
+.feedback-error { font-size: 0.75rem; color: var(--red); font-family: 'Sarabun', sans-serif; margin-bottom: 10px; display: none; }
+
+/* Fraction card */
+.frac-card { display: inline-flex; flex-direction: column; align-items: center; gap: 1px; line-height: 1.3; }
+.frac-num { font-size: 0.75rem; font-weight: 600; text-align: center; }
+.frac-line { width: 100%; height: 1.5px; background: currentColor; min-width: 80px; opacity: 0.7; }
+.frac-den { font-size: 0.75rem; font-weight: 600; text-align: center; }
+.word-card:has(.frac-card) { padding: 10px 12px; min-width: 140px; }
+
+/* Quiz mode */
+.quiz-scenario { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; font-family: 'Sarabun', sans-serif; font-size: 0.88rem; line-height: 1.8; color: var(--text); box-shadow: var(--shadow); margin-bottom: 4px; }
+.quiz-vars { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; }
+.quiz-var-chip { background: rgba(45,106,79,0.08); border: 1px solid rgba(45,106,79,0.25); border-radius: 20px; padding: 4px 12px; font-size: 0.78rem; font-family: 'Sarabun', sans-serif; color: var(--accent); font-weight: 600; }
+.quiz-q-block { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; box-shadow: var(--shadow); }
+.quiz-q-text { font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; }
+.quiz-choices { display: flex; flex-direction: column; gap: 8px; }
+.quiz-choice { background: var(--card); border: 1.5px solid var(--border); border-radius: 10px; padding: 11px 16px; font-family: 'Sarabun', sans-serif; font-size: 0.88rem; cursor: pointer; transition: all 0.15s; text-align: left; }
+.quiz-choice:active { transform: scale(0.98); }
+.quiz-choice.selected { border-color: var(--accent3); background: rgba(69,123,157,0.08); font-weight: 600; }
+.quiz-choice.correct { border-color: var(--green); background: rgba(45,106,79,0.1); color: var(--green); font-weight: 600; }
+.quiz-choice.wrong { border-color: var(--red); background: rgba(230,57,70,0.08); color: var(--red); }
+.quiz-explain { margin-top: 10px; padding: 10px 14px; background: rgba(45,106,79,0.06); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; font-family: 'Sarabun', sans-serif; font-size: 0.82rem; line-height: 1.7; display: none; }
+.quiz-q-counter { font-size: 0.72rem; color: var(--muted); font-family: 'Sarabun', sans-serif; margin-bottom: 6px; }
+.quiz-progress { display: flex; gap: 6px; margin-bottom: 8px; }
+.quiz-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); transition: background 0.3s; }
+.quiz-dot.done-correct { background: var(--green); }
+.quiz-dot.done-wrong { background: var(--red); }
+.quiz-dot.active { background: var(--accent3); }
+
+/* Level desc banner */
+.level-desc-banner { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; box-shadow: var(--shadow); }
+
+/* Home footer stats */
+.home-footer-stats { display: flex; justify-content: center; gap: 0; margin: 8px 0 4px; width: 100%; background: var(--text); border-radius: 16px; padding: 16px 0; }
+.home-footer-stats .hero-stat { flex: 1; text-align: center; border-right: 1px solid rgba(255,255,255,0.1); }
+.home-footer-stats .hero-stat:last-child { border-right: none; }
+.home-footer-stats .hero-stat-val { font-size: 1.4rem; font-weight: 700; color: var(--gold); }
+.home-footer-stats .hero-stat-label { font-size: 0.7rem; color: rgba(255,255,255,0.5); font-family: 'Sarabun', sans-serif; }
+
+/* Confetti */
+.confetti-wrap { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 9999; }
+.confetti-dot { position: absolute; width: 8px; height: 8px; border-radius: 2px; top: -20px; animation: confettiFall linear forwards; }
+@keyframes confettiFall { to { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MN7HHGG978"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MN7HHGG978');
+</script>
+</head>
+<body>
+
+<!-- HOME -->
+<div class="screen active" id="home-screen">
+  <div class="home-hero">
+    <div class="hero-badge">CFP · ชุดวิชาที่ 1</div>
+    <h1 class="hero-title">ฝึกจำด้วยเกม</h1>
+    <p class="hero-sub">การวางแผนการเงินส่วนบุคคล</p>
+  </div>
+  <div class="chapter-list">
+    <div class="chapter-card" onclick="openChapter(0)">
+      <div class="chapter-icon">📋</div>
+      <div class="chapter-info">
+        <div class="chapter-name">LOS 1 — การวางแผนการเงิน</div>
+        <div class="chapter-meta">2 ด่าน · ฟรีทั้งหมด</div>
+      </div>
+      <div class="chapter-arrow">›</div>
+    </div>
+    <div class="chapter-card" onclick="openChapter(1)">
+      <div class="chapter-icon">💰</div>
+      <div class="chapter-info">
+        <div class="chapter-name">LOS 2 — บริหารสภาพคล่อง</div>
+        <div class="chapter-meta">2 ด่าน · ฟรีทั้งหมด</div>
+      </div>
+      <div class="chapter-arrow">›</div>
+    </div>
+    <div class="chapter-card" onclick="openChapter(2)">
+      <div class="chapter-icon">🧮</div>
+      <div class="chapter-info">
+        <div class="chapter-name">LOS 3 — มูลค่าเงินตามเวลา</div>
+        <div class="chapter-meta">3 ด่าน · ฟรีทั้งหมด</div>
+      </div>
+      <div class="chapter-arrow">›</div>
+    </div>
+    <div class="chapter-card" onclick="openChapter(3)">
+      <div class="chapter-icon">📁</div>
+      <div class="chapter-info">
+        <div class="chapter-name">LOS 4 — รวบรวมข้อมูลทางการเงิน</div>
+        <div class="chapter-meta">2 ด่าน · ฟรีทั้งหมด</div>
+      </div>
+      <div class="chapter-arrow">›</div>
+    </div>
+    <div class="chapter-card" onclick="openChapter(4)">
+      <div class="chapter-icon">📊</div>
+      <div class="chapter-info">
+        <div class="chapter-name">LOS 5 — วิเคราะห์ข้อมูลส่วนบุคคล</div>
+        <div class="chapter-meta">2 ด่าน · ฟรีทั้งหมด</div>
+      </div>
+      <div class="chapter-arrow">›</div>
+    </div>
+    <div class="chapter-card" onclick="openChapter(5)">
+      <div class="chapter-icon">🧾</div>
+      <div class="chapter-info">
+        <div class="chapter-name">LOS 6-8 — ภาษีเงินได้บุคคลธรรมดา</div>
+        <div class="chapter-meta">6 ด่าน · มีบางด่านล็อค</div>
+      </div>
+      <div class="chapter-arrow">›</div>
+    </div>
+    <div class="home-footer-stats">
+      <div class="hero-stat"><div class="hero-stat-val">15</div><div class="hero-stat-label">ด่าน</div></div>
+      <div class="hero-stat"><div class="hero-stat-val">6</div><div class="hero-stat-label">บทเรียน</div></div>
+      <div class="hero-stat"><div class="hero-stat-val">14</div><div class="hero-stat-label">ฟรี</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- LEVEL SELECT -->
+<div class="screen" id="level-screen">
+  <div class="level-header">
+    <button class="back-btn" onclick="showScreen('home-screen')">←</button>
+    <div class="level-header-info">
+      <div class="level-header-title" id="chapter-title">—</div>
+      <div class="level-header-sub" id="chapter-sub">—</div>
+    </div>
+  </div>
+  <div class="level-list" id="level-list"></div>
+</div>
+
+<!-- GAME -->
+<div class="screen" id="game-screen">
+  <div class="game-topbar">
+    <button class="back-btn dark" onclick="confirmBack()">←</button>
+    <div class="game-title-wrap">
+      <div class="game-title" id="game-title">—</div>
+      <div class="game-subtitle" id="game-subtitle">—</div>
+    </div>
+    <div class="timer-box" id="timer-box">
+      <div class="timer-val" id="timer-val">60</div>
+      <div class="timer-lbl">วินาที</div>
+    </div>
+  </div>
+  <div class="game-body" id="game-body"></div>
+</div>
+
+<!-- RESULT -->
+<div class="screen" id="result-screen">
+  <div class="result-header">
+    <span class="result-emoji" id="result-emoji">🎉</span>
+    <div class="result-heading" id="result-heading">ยอดเยี่ยม!</div>
+    <div class="result-level-name" id="result-level-name">—</div>
+  </div>
+  <div class="result-body">
+    <div class="score-card">
+      <div class="score-stat"><div class="score-val" id="r-score" style="color:var(--accent)">—</div><div class="score-label">คะแนน</div></div>
+      <div class="score-stat"><div class="score-val" id="r-correct" style="color:var(--accent3)">—</div><div class="score-label">ถูก/ทั้งหมด</div></div>
+      <div class="score-stat"><div class="score-val" id="r-time" style="color:var(--accent2)">—</div><div class="score-label">วินาทีที่ใช้</div></div>
+    </div>
+    <div class="review-section" id="review-board"></div>
+    <button class="show-answer-btn" id="show-answer-btn" onclick="animateCorrectAnswers()" style="display:none">🔄 แสดงคำตอบที่ถูกต้อง</button>
+    <button class="explain-btn" id="explain-btn" onclick="openExplain()" style="display:none">📖 คำอธิบายเพิ่มเติม</button>
+    <div class="result-btns">
+      <button class="btn-primary" onclick="retryLevel()">🔄 เล่นอีกครั้ง</button>
+      <button class="btn-secondary" onclick="showScreen('level-screen')">← เลือกด่าน</button>
+    </div>
+  </div>
+</div>
+
+<!-- EXPLAIN MODAL -->
+<div class="modal-overlay" id="explain-modal" onclick="closeModalIfOutside(event,'explain-modal')">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">📖 คำอธิบายเพิ่มเติม</div>
+    <div id="explain-content"></div>
+    <button class="modal-close" onclick="closeModal('explain-modal')">ปิด</button>
+  </div>
+</div>
+
+<!-- LOCK MODAL -->
+<div class="modal-overlay" id="lock-modal" onclick="closeModalIfOutside(event,'lock-modal')">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="lock-modal-inner">
+      <div class="lock-icon" style="text-align:center">🔓</div>
+      <div class="lock-title">รบกวนกรอกคำแนะนำเพื่อปลดล็อคด่านที่เหลือ</div>
+      <div class="lock-desc">คำแนะนำของท่านมีคุณค่ามากสำหรับการพัฒนาเกมนี้ กรุณากรอกอย่างน้อย 80 ตัวอักษร</div>
+
+      <label class="feedback-label">คำแนะนำหรือความคิดเห็น *</label>
+      <textarea class="feedback-textarea" id="fb-text" rows="4" placeholder="เขียนความคิดเห็น คำแนะนำ หรือสิ่งที่อยากให้ปรับปรุง..." oninput="updateCharCount()"></textarea>
+      <div class="feedback-charcount" id="fb-charcount">0 / 80 ตัวอักษร</div>
+
+      <div class="feedback-row">
+        <div class="feedback-field">
+          <label class="feedback-label">เกมช่วยจำได้มากแค่ไหน *</label>
+          <select class="feedback-select" id="fb-score">
+            <option value="">เลือก...</option>
+            <option value="1">1 — น้อยมาก</option>
+            <option value="2">2 — น้อย</option>
+            <option value="3">3 — ปานกลาง</option>
+            <option value="4">4 — มาก</option>
+            <option value="5">5 — มากที่สุด</option>
+          </select>
+        </div>
+        <div class="feedback-field">
+          <label class="feedback-label">บทเรียนที่อยากให้เพิ่มด่าน *</label>
+          <select class="feedback-select" id="fb-los">
+            <option value="">เลือก...</option>
+            <option value="LOS1">LOS 1</option>
+            <option value="LOS2">LOS 2</option>
+            <option value="LOS3">LOS 3</option>
+            <option value="LOS4">LOS 4</option>
+            <option value="LOS5">LOS 5</option>
+            <option value="LOS6-8">LOS 6-8</option>
+          </select>
+        </div>
+      </div>
+
+      <label class="feedback-label">1 บทเรียนควรมีกี่ด่าน *</label>
+      <input class="feedback-input" id="fb-levels" type="number" min="1" max="20" placeholder="ใส่ตัวเลข เช่น 3" style="margin-bottom:14px">
+
+      <div class="feedback-error" id="fb-error">กรุณากรอกให้ครบและเขียนคำแนะนำอย่างน้อย 80 ตัวอักษร</div>
+      <button class="lock-contact-btn" onclick="submitFeedbackUnlock()">✓ ส่งคำแนะนำและปลดล็อค</button>
+      <button class="btn-secondary" onclick="closeModal('lock-modal')" style="width:100%;text-align:center">ปิด</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const CHAPTERS = [
+  { name: "LOS 1 — การวางแผนการเงิน", sub: "2 ด่าน · ฟรีทั้งหมด", levels: [0,1] },
+  { name: "LOS 2 — บริหารสภาพคล่อง", sub: "2 ด่าน · ฟรีทั้งหมด", levels: [2,3] },
+  { name: "LOS 3 — มูลค่าเงินตามเวลา", sub: "3 ด่าน · ฟรีทั้งหมด", levels: [14,15,16] },
+  { name: "LOS 4 — รวบรวมข้อมูลทางการเงิน", sub: "2 ด่าน · ฟรีทั้งหมด", levels: [12,13] },
+  { name: "LOS 5 — วิเคราะห์ข้อมูลส่วนบุคคล", sub: "2 ด่าน · ฟรีทั้งหมด", levels: [10,11] },
+  { name: "LOS 6-8 — ภาษีเงินได้", sub: "6 ด่าน · มีบางด่านล็อค", levels: [4,5,6,7,8,9] }
+];
+
+const LEVELS = [
+  {
+    name: "กระบวนการวางแผน 6 ขั้นตอน", sub: "LOS 1 · เรียงลำดับ",
+    time: 90, free: true, mode: "sort",
+    shortNote: "",
+    items: [
+      { text: "สร้างความสัมพันธ์", order: 1, desc: "สร้างความสัมพันธ์และกำหนดขอบเขตของข้อตกลงและข้อจำกัดของการให้บริการวางแผนการเงินกับลูกค้า\n\n💡 สูตร : สร้างรวบ+วิจัด+ดำทบ" },
+      { text: "รวบรวมข้อมูลของลูกค้า", order: 2, desc: "" },
+      { text: "วิเคราะห์", order: 3, desc: "วิเคราะห์และประเมินสถานการณ์ทางการเงินของลูกค้า" },
+      { text: "จัดทำแผนการเงิน", order: 4, desc: "จัดทำและนำเสนอแผนการเงิน" },
+      { text: "ดำเนินการตามแผนฯ", order: 5, desc: "" },
+      { text: "ทบทวนสถานการณ์", order: 6, desc: "ประเมินผลลัพธ์ที่ได้ทำไปและปรับปรุงแผน" },
+    ]
+  },
+  {
+    name: "การตั้งเป้าหมายทางการเงิน แบบ S-M-A-R-T", sub: "LOS 1 · จับกลุ่ม",
+    time: 60, free: true, mode: "group",
+    columns: ["S", "M", "A", "R", "T"],
+    colRows: [[0,1,2],[3,4]],
+    words: [
+      { text: "เจาะจง ชัดเจน", col: 0, desc: "S - Specific = เจาะจง ชัดเจน" },
+      { text: "วัดผลได้", col: 1, desc: "M - Measurable = วัดผลได้ เช่น วัดผลเป็นตัวเลข" },
+      { text: "มีทางทำให้สำเร็จได้", col: 2, desc: "A - Achievable = มีทางทำให้สำเร็จได้" },
+      { text: "สมเหตุสมผล", col: 3, desc: "R - Realistic = สมเหตุสมผล" },
+      { text: "มีกรอบเวลาที่ชัดเจน", col: 4, desc: "T - Time-bound = มีกรอบเวลาที่ชัดเจน" },
+    ]
+  },
+  {
+    name: "ความจำเป็นในการถือครองเงินสด", sub: "LOS 2 · จับกลุ่ม",
+    time: 60, free: true, mode: "group",
+    columns: ["Pocket\nMoney", "Emergency\nReserves", "Store of\nValue", "ความเสี่ยง"],
+    colRows: [[0,1,2,3]],
+    colRowMinHeight: ["110px"],
+    words: [
+      { text: "พอใช้ 1-2 สัปดาห์", col: 0, desc: "ปรับได้ตามความเหมาะสม" },
+      { text: "พอใช้ 3-6 เดือน", col: 1, desc: "ปรับได้ตามความเหมาะสม" },
+      { text: "รวบรวมไว้ซื้อของมูลค่าสูง", col: 2, desc: "" },
+      { text: "ใช้จ่ายมากเกินไป", col: 3, desc: "" },
+      { text: "เงินเฟ้อ", col: 3, desc: "" },
+    ]
+  },
+  {
+    name: "วิธีคิดดอกเบี้ยเงินฝาก", sub: "LOS 2 · จับกลุ่ม",
+    time: 70, free: true, mode: "group",
+    columns: ["Min Balance", "FIFO", "LIFO", "Daily Interest"],
+    words: [
+      { text: "ยอดคงค้างต่ำสุด/เดือน", col: 0, desc: "Minimum Account Balance = คำนวณจากยอดคงค้างต่ำสุดในแต่ละเดือน หากมีการถอนเงินระหว่างงวดมาก วิธีนี้จะได้ดอกเบี้ยรับน้อยที่สุด" },
+      { text: "ถอนเงินเก่าก่อน", col: 1, desc: "First-in, First-out (FIFO) = ธนาคารตีความว่าเราถอนเงินเก่าก่อน เมื่อถอนจะเสียดอกเบี้ยสะสมมากกว่า\n\n💡 First = เงินเก่า" },
+      { text: "ถอนเงินใหม่ก่อน", col: 2, desc: "Last-in, First-out (LIFO) = ถอนเงินใหม่ก่อน เมื่อถอนจะเสียดอกเบี้ยสะสมน้อยกว่า\n\n💡 Last = เงินใหม่" },
+      { text: "คิดดอกเบี้ยตามยอดแต่ละวัน", col: 3, desc: "Daily Interest = คิดดอกเบี้ยตามยอดเงินในแต่ละวัน\n\n<span style='color:#e63946;font-weight:600;'>เป็นวิธีการคิดดอกเบี้ยส่วนใหญ่ ณ ปัจจุบัน</span>" },
+    ]
+  },
+  {
+    name: "เงินได้ประเภท 40(1)-(8) ภาพรวม", sub: "LOS 6-8 · จับกลุ่ม",
+    time: 90, free: true, mode: "group",
+    columns: ["40(1)", "40(2)", "40(3)", "40(4)", "40(5)", "40(6)", "40(7)", "40(8)"],
+    colRows: [[0,1,2,3],[4,5,6,7]],
+    words: [
+      { text: "เงินเดือน", col: 0, desc: "" },
+      { text: "ค่าจ้างทำงานให้", col: 1, desc: "" },
+      { text: "ค่าลิขสิทธิ์", col: 2, desc: "40(3) = ค่าลิขสิทธิ์ + ค่าแห่ง goodwill (เกี่ยวกับการซื้อกิจการ)" },
+      { text: "เงินลงทุน", col: 3, desc: "40(4) = เงินลงทุน : ดอกเบี้ย เงินปันผล กำไรจากการขายหุ้น" },
+      { text: "ค่าเช่า", col: 4, desc: "" },
+      { text: "วิชาชีพอิสระ", col: 5, desc: "" },
+      { text: "รับเหมา", col: 6, desc: "" },
+      { text: "อื่นๆ", col: 7, desc: "" },
+    ]
+  },
+  {
+    name: "เงินได้ 40(1)-(2) : งานแลกเงิน", sub: "LOS 6-8 · จับกลุ่ม",
+    time: 45, free: true, mode: "group",
+    columns: ["40(1) — เงินเดือน", "40(2) — ค่าจ้าง"],
+    words: [
+      { text: "เงินเดือน", col: 0, desc: "" },
+      { text: "โบนัส", col: 0, desc: "" },
+      { text: "ค่าจ้างทำงานให้", col: 1, desc: "" },
+      { text: "ค่านายหน้า", col: 1, desc: "" },
+    ]
+  },
+  {
+    name: "เงินได้ 40(3)-(4) : ทรัพย์สิน", sub: "LOS 6-8 · จับกลุ่ม",
+    time: 45, free: true, mode: "group",
+    columns: ["40(3) — ค่าลิขสิทธิ์", "40(4) — เงินลงทุน"],
+    words: [
+      { text: "ค่าลิขสิทธิ์", col: 0, desc: "ค่าลิขสิทธิ์ + ค่าแห่ง goodwill (เกี่ยวกับการซื้อกิจการ)" },
+      { text: "ค่าแห่ง goodwill", col: 0, desc: "ค่าลิขสิทธิ์ + ค่าแห่ง goodwill (เกี่ยวกับการซื้อกิจการ)" },
+      { text: "ดอกเบี้ย", col: 1, desc: "ดอกเบี้ย เงินปันผล กำไรจากการขายหุ้น" },
+      { text: "เงินปันผล", col: 1, desc: "ดอกเบี้ย เงินปันผล กำไรจากการขายหุ้น" },
+    ]
+  },
+  {
+    name: "เงินได้ 40(5)-(8) : ทำธุรกิจ", sub: "LOS 6-8 · จับกลุ่ม",
+    time: 60, free: true, mode: "group",
+    columns: ["40(5)", "40(6)", "40(7)", "40(8)"],
+    words: [
+      { text: "ค่าเช่า", col: 0, desc: "" },
+      { text: "วิชาชีพอิสระ", col: 1, desc: "" },
+      { text: "รับเหมา", col: 2, desc: "" },
+      { text: "อื่นๆ", col: 3, desc: "" },
+    ]
+  },
+  {
+    name: "เงินได้แบบเหมา 40(5)", sub: "LOS 6-8 · จับกลุ่ม",
+    time: 60, free: false, mode: "group",
+    columns: ["หักได้ 30%", "หักได้ 20%", "หักได้ 15%", "หักได้ 10%"],
+    words: [
+      { text: "บ้าน", col: 0, desc: "" },
+      { text: "ยานพาหนะ", col: 0, desc: "" },
+      { text: "ที่ดินการเกษตร", col: 1, desc: "" },
+      { text: "ที่ดินอื่นๆ", col: 2, desc: "" },
+      { text: "ทรัพย์สินอื่นๆ", col: 3, desc: "" },
+    ]
+  },
+  {
+    name: "เงินได้แบบเหมา 40(6)", sub: "LOS 6-8 · จับกลุ่ม",
+    time: 45, free: true, mode: "group",
+    columns: ["หักได้ 60%", "หักได้ 30%"],
+    words: [
+      { text: "ประกอบโรคศิลป์", col: 0, desc: "เวชกรรม, ทันตกรรม, เภสัชกรรม, พยาบาล, ผดุงครรภ์, กายภาพบำบัด, เทคนิคการแพทย์" },
+      { text: "วิชาชีพอื่นๆ", col: 1, desc: "นักกฎหมาย, วิศวกร, สถาปนิก, นักบัญชี, ช่างประณีตศิลป์" },
+    ]
+  },
+  {
+    name: "อัตราส่วนสภาพคล่อง", sub: "LOS 5 · จับกลุ่ม",
+    time: 75, free: true, mode: "group",
+    levelDesc: `<div style="font-family:'Sarabun',sans-serif;font-size:0.82rem;line-height:1.8;color:var(--muted)">
+      <b style="color:var(--text);font-family:'Prompt',sans-serif">การวิเคราะห์อัตราส่วนสภาพคล่อง</b><br>
+      ทำเพื่อวิเคราะห์ความสามารถในการจัดหาเงินสดจากเงินออมและสินทรัพย์ที่มีสภาพคล่อง<br>เพื่อสำรองใช้จ่ายในแต่ละเดือน และในยามฉุกเฉิน
+    </div>`,
+    columns: ["สภาพคล่อง", "สภาพคล่องพื้นฐาน", "สินทรัพย์ฯ\nต่อความมั่งคั่ง"],
+    words: [
+      {
+        text: "สินทรัพย์สภาพคล่อง ÷ หนี้สินระยะสั้น",
+        col: 0,
+        desc: `<b>Current Ratio</b><br><div style="text-align:center;margin:8px 0">
+          <span style="display:inline-block;border-bottom:1.5px solid currentColor;padding-bottom:2px;font-weight:600">สินทรัพย์สภาพคล่อง</span><br>
+          <span style="font-weight:600">หนี้สินระยะสั้น</span>
+          </div>
+          เกณฑ์ : <span style="color:var(--red);font-weight:600">มากกว่า 1 = มีความสามารถในการชำระหนี้ระยะสั้นที่ดี</span><br>
+          น้อยกว่า 1 = ไม่เพียงพอในการชำระหนี้ระยะสั้นทั้งหมด`
+      },
+      {
+        text: "มากกว่า 1",
+        col: 0,
+        desc: `เกณฑ์ของ <b>Current Ratio</b><br>
+          <span style="color:var(--red);font-weight:600">มากกว่า 1 = มีความสามารถในการชำระหนี้ระยะสั้นที่ดี</span><br>
+          น้อยกว่า 1 = ไม่เพียงพอในการชำระหนี้ระยะสั้นทั้งหมด`
+      },
+      {
+        text: "สินทรัพย์สภาพคล่อง ÷ กระแสเงินสดจ่ายต่อเดือน",
+        col: 1,
+        desc: `<b>Basic Current Ratio</b><br><div style="text-align:center;margin:8px 0">
+          <span style="display:inline-block;border-bottom:1.5px solid currentColor;padding-bottom:2px;font-weight:600">สินทรัพย์สภาพคล่อง</span><br>
+          <span style="font-weight:600">กระแสเงินสดจ่ายต่อเดือน</span>
+          </div>
+          เกณฑ์ : น้อยกว่า 3 เท่า = มีสภาพคล่องน้อยเกินไป<br>
+          <b>3 – 6 เท่า = มีสภาพคล่องที่เหมาะสม</b><br>
+          มากกว่า 6 เท่า = มีสภาพคล่องมากเกินความจำเป็น`
+      },
+      {
+        text: "3 – 6",
+        col: 1,
+        desc: `เกณฑ์ของ <b>Basic Current Ratio</b><br>
+          น้อยกว่า 3 เท่า = มีสภาพคล่องน้อยเกินไป<br>
+          <b>3 – 6 เท่า = มีสภาพคล่องที่เหมาะสม</b><br>
+          มากกว่า 6 เท่า = มีสภาพคล่องมากเกินความจำเป็น`
+      },
+      {
+        text: "สินทรัพย์สภาพคล่อง ÷ ความมั่งคั่งสุทธิ",
+        col: 2,
+        desc: `<b>Liquid Assets to Net Worth Ratio</b><br><div style="text-align:center;margin:8px 0">
+          <span style="display:inline-block;border-bottom:1.5px solid currentColor;padding-bottom:2px;font-weight:600">สินทรัพย์สภาพคล่อง</span><br>
+          <span style="font-weight:600">ความมั่งคั่งสุทธิ</span>
+          </div>
+          เกณฑ์ : ควรมีอัตราส่วนขั้นต่ำ <b>= 15%</b><br>
+          สะท้อนสัดส่วนสินทรัพย์ที่มีสภาพคล่องเทียบกับความมั่งคั่งสุทธิ`
+      },
+      {
+        text: "15%",
+        col: 2,
+        desc: `เกณฑ์ของ <b>Liquid Assets to Net Worth Ratio</b><br>
+          ควรมีอัตราส่วนสินทรัพย์ที่มีสภาพคล่อง ต่อความมั่งคั่งสุทธิขั้นต่ำ <b>= 15%</b>`
+      },
+    ]
+  },
+  {
+    name: "อัตราส่วนหนี้สิน", sub: "LOS 5 · จับกลุ่ม",
+    time: 90, free: true, mode: "group",
+    columns: ["หนี้สินต่อสินทรัพย์", "ชำระคืนหนี้จากรายได้", "ชำระคืนหนี้\n(ไม่รวมจดจำนอง)", "ชำระคืนหนี้ทั้งหมด"],
+    colRows: [[0,1],[2,3]],
+    words: [
+      {
+        text: "หนี้สินรวม ÷ สินทรัพย์รวม",
+        col: 0,
+        desc: `<b>Debt Ratio (หนี้สินต่อสินทรัพย์)</b><br>
+          <div style="text-align:center;margin:8px 0">
+            <span style="display:inline-block;border-bottom:1.5px solid currentColor;padding-bottom:2px;font-weight:600">หนี้สินรวม</span><br>
+            <span style="font-weight:600">สินทรัพย์รวม</span>
+          </div>
+          <span style="color:var(--red);font-weight:600">น้อยกว่า 50% = มีความสามารถในการชำระหนี้ทั้งหมดเมื่อครบกำหนด ค่อนข้างดี</span><br>
+          มากกว่า 50% = สัดส่วนหนี้สูงกว่าเกณฑ์ มีความสามารถในการชำระหนี้ทั้งหมดได้ไม่ดีนัก`
+      },
+      {
+        text: "น้อยกว่า 50%",
+        col: 0,
+        desc: `เกณฑ์ของ <b>Debt Ratio</b><br>
+          <span style="color:var(--red);font-weight:600">น้อยกว่า 50% = มีความสามารถในการชำระหนี้ทั้งหมดเมื่อครบกำหนด ค่อนข้างดี</span><br>
+          มากกว่า 50% = สัดส่วนหนี้สูงกว่าเกณฑ์ มีความสามารถในการชำระหนี้ทั้งหมดได้ไม่ดีนัก`
+      },
+      {
+        text: "เงินชำระหนี้ ÷ รายได้รวม",
+        col: 1,
+        desc: `<b>Debt Repayment Ratio (การชำระคืนหนี้จากรายได้)</b><br>
+          <div style="text-align:center;margin:8px 0">
+            <span style="display:inline-block;border-bottom:1.5px solid currentColor;padding-bottom:2px;font-weight:600">เงินชำระหนี้</span><br>
+            <span style="font-weight:600">รายได้รวม</span>
+          </div>
+          <span style="color:var(--red);font-weight:600">น้อยกว่า 35% = มีความสามารถเพียงพอในการผ่อนชำระหนี้สินได้ดี มีโอกาสในการผิดนัดชำระหนี้ค่อนข้างต่ำ</span><br>
+          มากกว่า 45% = มีภาระในการผ่อนชำระหนี้ค่อนข้างมาก อาจมีโอกาสในการผิดนัดชำระหนี้ได้`
+      },
+      {
+        text: "น้อยกว่า 35-45%",
+        col: 1,
+        desc: `เกณฑ์ของ <b>Debt Repayment Ratio</b><br>
+          <span style="color:var(--red);font-weight:600">น้อยกว่า 35% = มีความสามารถเพียงพอในการผ่อนชำระหนี้สินได้ดี มีโอกาสในการผิดนัดชำระหนี้ค่อนข้างต่ำ</span><br>
+          มากกว่า 45% = มีภาระในการผ่อนชำระหนี้ค่อนข้างมาก อาจมีโอกาสในการผิดนัดชำระหนี้ได้`
+      },
+      {
+        text: "เงินชำระคืนหนี้ไม่รวมจดจำนอง ÷ รายได้รวม",
+        col: 2,
+        desc: `<b>การชำระคืนหนี้ที่ไม่รวมภาระจดจำนองจากรายได้</b><br>
+          <div style="text-align:center;margin:8px 0">
+            <span style="display:inline-block;border-bottom:1.5px solid currentColor;padding-bottom:2px;font-weight:600">เงินชำระคืนหนี้ไม่รวมภาระจดจำนอง</span><br>
+            <span style="font-weight:600">รายได้รวม</span>
+          </div>
+          <span style="color:var(--red);font-weight:600">น้อยกว่า 15% = มีความสามารถเพียงพอในการผ่อนใช้หนี้ มีโอกาสผิดนัดชำระหนี้ค่อนข้างต่ำ</span><br>
+          มากกว่า 20% = มีภาระในการผ่อนค่อนข้างมาก อาจมีโอกาสในการผิดนัดชำระหนี้`
+      },
+      {
+        text: "มากกว่า 15-20%",
+        col: 2,
+        desc: `เกณฑ์ของ <b>การชำระคืนหนี้ที่ไม่รวมภาระจดจำนองจากรายได้</b><br>
+          <span style="color:var(--red);font-weight:600">น้อยกว่า 15% = มีความสามารถเพียงพอในการผ่อนใช้หนี้ มีโอกาสผิดนัดชำระหนี้ค่อนข้างต่ำ</span><br>
+          มากกว่า 20% = มีภาระในการผ่อนค่อนข้างมาก อาจมีโอกาสในการผิดนัดชำระหนี้`
+      },
+      {
+        text: "ความมั่งคั่งสุทธิ ÷ สินทรัพย์รวม",
+        col: 3,
+        desc: `<b>ความสามารถในการชำระคืนหนี้ทั้งหมด</b><br>
+          <div style="text-align:center;margin:8px 0">
+            <span style="display:inline-block;border-bottom:1.5px solid currentColor;padding-bottom:2px;font-weight:600">ความมั่งคั่งสุทธิ</span><br>
+            <span style="font-weight:600">สินทรัพย์รวม</span>
+          </div>
+          เกณฑ์ : ควรมีอัตราส่วนมากกว่า <b>50%</b><br>
+          สะท้อนสัดส่วนสินทรัพย์ที่เป็นของตนเองเทียบกับสินทรัพย์ทั้งหมด`
+      },
+      {
+        text: "มากกว่า 50%",
+        col: 3,
+        desc: `เกณฑ์ของ <b>ความสามารถในการชำระคืนหนี้ทั้งหมด</b><br>
+          ควรมีอัตราส่วนความมั่งคั่งสุทธิต่อสินทรัพย์รวมมากกว่า <b>50%</b>`
+      },
+    ]
+  },
+  {
+    name: "กระแสเงินสดจ่าย (1)", sub: "LOS 4 · จับกลุ่ม",
+    time: 90, free: true, mode: "group",
+    columns: ["การออม/ลงทุน", "คงที่", "แปรผัน"],
+    words: [
+      { text: "เบี้ยประกันชีวิต", col: 0, desc: "<b>การออม/ลงทุน</b><br>เบี้ยประกันชีวิตถือเป็นการออมระยะยาว แม้จะดูคล้ายรายจ่ายคงที่ แต่มีมูลค่าเวนคืนและผลประโยชน์สะสมอยู่" },
+      { text: "เก็บเงินฝากธนาคาร", col: 0, desc: "<b>การออม/ลงทุน</b><br>การโอนเงินเข้าบัญชีออมทรัพย์หรือฝากประจำคือการออมโดยตรง" },
+      { text: "กองทุน RMF", col: 0, desc: "<b>การออม/ลงทุน</b><br>RMF (Retirement Mutual Fund) คือการลงทุนเพื่อเกษียณอายุ ถือเป็นกระแสเงินสดจ่ายประเภทออม/ลงทุน" },
+      { text: "ค่าผ่อนบ้าน", col: 1, desc: "<b>คงที่</b><br>ยอดผ่อนชำระสินเชื่อบ้านแต่ละเดือนเท่ากันตลอด ไม่ขึ้นกับพฤติกรรม" },
+      { text: "ประกันสังคม", col: 1, desc: "<b>คงที่</b><br>หักจากเงินเดือนในอัตราคงที่ตามกฎหมาย ไม่ใช่การออมที่เลือกได้เอง จึงจัดเป็นรายจ่ายคงที่" },
+      { text: "บัตรเครดิต", col: 1, desc: "<b>คงที่</b><br>ยอดชำระขั้นต่ำหรือยอดเต็มที่ตั้งไว้ในแต่ละเดือนถือเป็นภาระคงที่" },
+      { text: "ค่าอาหาร", col: 2, desc: "<b>แปรผัน</b><br>ขึ้นอยู่กับพฤติกรรมการกินในแต่ละวัน ปริมาณไม่เท่ากันทุกเดือน" },
+      { text: "ค่าเลี้ยงดูบุตร", col: 2, desc: "<b>แปรผัน</b><br>เปลี่ยนแปลงตามช่วงวัยและความต้องการของบุตร เช่น ค่าเรียนพิเศษ ค่ากิจกรรม" },
+      { text: "ค่าอาหารมื้อพิเศษ", col: 2, desc: "<b>แปรผัน</b><br>รายจ่ายที่ไม่ได้เกิดขึ้นทุกเดือนและไม่มีจำนวนคงที่ ขึ้นอยู่กับโอกาสและพฤติกรรม" },
+    ]
+  },
+  {
+    name: "กระแสเงินสดจ่าย (2)", sub: "LOS 4 · จับกลุ่ม",
+    time: 90, free: true, mode: "group",
+    columns: ["การออม/ลงทุน", "คงที่", "แปรผัน"],
+    words: [
+      { text: "เงินสะสม กบข.", col: 0, desc: "<b>การออม/ลงทุน</b><br>กองทุนบำเหน็จบำนาญข้าราชการ (กบข.) คือการออมเพื่อเกษียณ แม้ถูกหักอัตโนมัติ แต่มีมูลค่าสะสมเป็นของตัวเอง จึงจัดเป็นการออม ไม่ใช่รายจ่ายคงที่" },
+      { text: "กองทุนสำรองเลี้ยงชีพ", col: 0, desc: "<b>การออม/ลงทุน</b><br>Provident Fund คือการออมร่วมกับนายจ้าง เงินส่วนนี้เป็นของลูกจ้างและมีผลตอบแทนสะสม" },
+      { text: "เบี้ยประกันสุขภาพ", col: 0, desc: "<b>การออม/ลงทุน</b><br>ประกันสุขภาพมีมูลค่าความคุ้มครองสะสม จัดเป็นการออม/ลงทุนด้านความเสี่ยง" },
+      { text: "ค่าโทรศัพท์มือถือ", col: 1, desc: "<b>คงที่</b><br>แพ็กเกจรายเดือนที่ตกลงไว้กับผู้ให้บริการมีจำนวนเงินคงที่ทุกเดือน" },
+      { text: "ค่าเช่าบ้าน", col: 1, desc: "<b>คงที่</b><br>กำหนดจำนวนเงินตามสัญญาเช่าล่วงหน้า ไม่เปลี่ยนแปลงตามพฤติกรรม" },
+      { text: "เงินส่งให้พ่อแม่", col: 1, desc: "<b>คงที่</b><br>หากกำหนดจำนวนตายตัวทุกเดือน จัดเป็นรายจ่ายคงที่ตามภาระผูกพัน" },
+      { text: "ค่าน้ำมันรถ", col: 2, desc: "<b>แปรผัน</b><br>ขึ้นอยู่กับระยะทางที่ขับและราคาน้ำมัน ไม่เท่ากันในแต่ละเดือน" },
+      { text: "ค่าซ่อมบำรุง", col: 2, desc: "<b>แปรผัน</b><br>เกิดขึ้นไม่สม่ำเสมอและไม่มีจำนวนคงที่ ขึ้นอยู่กับสภาพบ้านหรือรถ" },
+      { text: "ค่าเสื้อผ้า", col: 2, desc: "<b>แปรผัน</b><br>รายจ่ายที่ไม่เกิดขึ้นทุกเดือนและจำนวนเงินไม่แน่นอน ขึ้นอยู่กับความต้องการ" },
+    ]
+  },
+  {
+    name: "ตีความตัวแปร N I/Y PV PMT FV", sub: "LOS 3 · จับกลุ่ม",
+    levelDesc: `<div style="font-family:'Sarabun',sans-serif;font-size:0.85rem;line-height:1.8">
+      <b style="color:var(--text);font-family:'Prompt',sans-serif">โจทย์</b><br>
+      <span style="color:var(--text)">คุณสมศรีฝากเงินทุกปลายเดือน เดือนละ 5,000 บาท เป็นเวลา 10 ปี อัตราดอกเบี้ย 4% ต่อปี อยากทราบว่าเมื่อครบกำหนดจะมีเงินออมทั้งหมดเท่าไหร่</span>
+    </div>`,
+    columns: ["N", "I/Y", "PV", "PMT", "FV", "ไม่เกี่ยวข้อง"],
+    colRows: [[0,1,2],[3,4,5]],
+    words: [
+      { text: "120", col: 0, desc: "<b>N = 120</b><br>ระยะเวลา 10 ปี × 12 เดือน = 120 งวด (คำนวณรายเดือน)" },
+      { text: "4/12 ≈ 0.3333%", col: 1, desc: "<b>I/Y = 4/12</b><br>อัตราดอกเบี้ย 4% ต่อปี หารด้วย 12 เดือน เพื่อให้ตรงกับงวดรายเดือน" },
+      { text: "0", col: 2, desc: "<b>PV = 0</b><br>ไม่มีเงินต้นตั้งต้น เริ่มออมจากศูนย์" },
+      { text: "-5,000", col: 3, desc: "<b>PMT = -5,000</b><br>ฝากเงินออกไปทุกเดือน → เป็นกระแสเงินสดจ่ายออก ใส่เครื่องหมายลบ" },
+      { text: "สิ่งที่ต้องหา", col: 4, desc: "<b>FV = ?</b><br>โจทย์ถามว่า 'จะมีเงินเท่าไหร่เมื่อครบกำหนด' → FV คือสิ่งที่ต้องการหา" },
+      { text: "ปลายเดือน", col: 5, desc: "<b>ไม่เกี่ยวข้องกับการกดเครื่องคิดเลข</b><br>'ปลายเดือน' บอกว่าใช้ END Mode แต่ END เป็น default ของเครื่อง ไม่ต้องกรอกเป็นตัวแปร" },
+      { text: "5,000", col: 5, desc: "<b>ไม่ใช่ตัวแปรที่กรอก</b><br>ตัวเลข 5,000 ที่ไม่มีเครื่องหมายลบไม่ถูกต้อง PMT ที่จ่ายออกต้องเป็น -5,000" },
+    ]
+  },
+  {
+    name: "ตีความตัวแปร — กู้ซื้อบ้าน", sub: "LOS 3 · จับกลุ่ม",
+    time: 120, free: true, mode: "group",
+    levelDesc: `<div style="font-family:'Sarabun',sans-serif;font-size:0.85rem;line-height:1.8">
+      <b style="color:var(--text);font-family:'Prompt',sans-serif">โจทย์</b><br>
+      <span style="color:var(--text)">คุณวิชัยกู้เงินซื้อบ้าน 3,000,000 บาท ธนาคารคิดดอกเบี้ย 6% ต่อปี ผ่อนชำระทุกต้นเดือน เป็นเวลา 30 ปี อยากทราบว่าต้องผ่อนเดือนละเท่าไหร่</span>
+    </div>`,
+    columns: ["N", "I/Y", "PV", "PMT", "FV", "ไม่เกี่ยวข้อง"],
+    colRows: [[0,1,2],[3,4,5]],
+    words: [
+      { text: "360", col: 0, desc: "<b>N = 360</b><br>ระยะเวลา 30 ปี × 12 เดือน = 360 งวด" },
+      { text: "6/12 = 0.5%", col: 1, desc: "<b>I/Y = 6/12</b><br>อัตราดอกเบี้ย 6% ต่อปี หารด้วย 12 เพื่อให้ตรงกับงวดรายเดือน" },
+      { text: "3,000,000", col: 2, desc: "<b>PV = 3,000,000</b><br>ยอดเงินกู้ที่รับมาวันนี้ → กระแสเงินสดรับเข้า ใส่เป็นบวก" },
+      { text: "สิ่งที่ต้องหา", col: 3, desc: "<b>PMT = ?</b><br>โจทย์ถามว่า 'ต้องผ่อนเดือนละเท่าไหร่' → PMT คือสิ่งที่ต้องการหา (คำตอบจะติดลบเพราะเป็นเงินจ่ายออก)" },
+      { text: "0", col: 4, desc: "<b>FV = 0</b><br>เมื่อผ่อนครบ 30 ปี หนี้หมด ยอดคงเหลือเป็นศูนย์" },
+      { text: "ต้นเดือน", col: 5, desc: "<b>ต้องตั้ง BEG Mode</b><br>'ต้นเดือน' = BEG Mode ซึ่งต้องตั้งค่าเครื่องคิดเลขก่อน แต่ตัว BEG ไม่ใช่ตัวแปรที่กรอก จึงไม่อยู่ในช่อง N–FV" },
+      { text: "-3,000,000", col: 5, desc: "<b>ไม่ถูกต้อง</b><br>PV ของเงินกู้ที่รับมาเป็นกระแสเงินสดรับ → ใส่เป็น +3,000,000 ไม่ใช่ลบ" },
+    ]
+  },
+  {
+    name: "ตีความตัวแปร — วางแผนเกษียณ", sub: "LOS 3 · จับกลุ่ม",
+    time: 120, free: true, mode: "group",
+    levelDesc: `<div style="font-family:'Sarabun',sans-serif;font-size:0.85rem;line-height:1.8">
+      <b style="color:var(--text);font-family:'Prompt',sans-serif">โจทย์</b><br>
+      <span style="color:var(--text)">คุณมานะอายุ 35 ปี ต้องการมีเงิน 10,000,000 บาท ตอนอายุ 60 ปี โดยจะออมเงินทุกปลายปี อัตราผลตอบแทนคาดหวัง 7% ต่อปี ขณะนี้มีเงินออมอยู่แล้ว 500,000 บาท อยากทราบว่าต้องออมเพิ่มปีละเท่าไหร่</span>
+    </div>`,
+    columns: ["N", "I/Y", "PV", "PMT", "FV", "ไม่เกี่ยวข้อง"],
+    colRows: [[0,1,2],[3,4,5]],
+    words: [
+      { text: "25", col: 0, desc: "<b>N = 25</b><br>60 - 35 = 25 ปี (ออมรายปี จึงไม่ต้องคูณ 12)" },
+      { text: "7", col: 1, desc: "<b>I/Y = 7</b><br>ผลตอบแทน 7% ต่อปี ออมรายปีจึงใช้ได้โดยตรง ไม่ต้องหาร 12" },
+      { text: "-500,000", col: 2, desc: "<b>PV = -500,000</b><br>มีเงินออมอยู่แล้ว 500,000 บาท → เป็นเงินที่จ่ายออกไปลงทุนแล้ว ใส่ลบ (ทิศทางเดียวกับ PMT)" },
+      { text: "สิ่งที่ต้องหา", col: 3, desc: "<b>PMT = ?</b><br>โจทย์ถามว่า 'ต้องออมเพิ่มปีละเท่าไหร่' → PMT คือสิ่งที่ต้องการหา (คำตอบจะติดลบ)" },
+      { text: "10,000,000", col: 4, desc: "<b>FV = 10,000,000</b><br>เป้าหมายเงินที่ต้องการตอนเกษียณ → กระแสเงินสดรับในอนาคต ใส่เป็นบวก" },
+      { text: "500,000", col: 5, desc: "<b>ไม่ถูกต้อง</b><br>เงินออมที่มีอยู่แล้วคือ PV ซึ่งถูกจ่ายออกไปลงทุนแล้ว ต้องใส่เป็น -500,000 ไม่ใช่บวก" },
+      { text: "35 และ 60", col: 5, desc: "<b>ไม่ใช่ตัวแปรที่กรอกโดยตรง</b><br>อายุ 35 และ 60 ใช้คำนวณหา N = 25 เท่านั้น ไม่ได้กรอกลงเครื่องคิดเลขโดยตรง" },
+    ]
+  }
+];
+
+// ============================================================
+// SOUND
+// ============================================================
+const _ac = new (window.AudioContext || window.webkitAudioContext)();
+function playDrop() {
+  try {
+    const o = _ac.createOscillator(), g = _ac.createGain();
+    o.connect(g); g.connect(_ac.destination);
+    o.frequency.setValueAtTime(600, _ac.currentTime);
+    o.frequency.exponentialRampToValueAtTime(400, _ac.currentTime + 0.08);
+    g.gain.setValueAtTime(0.12, _ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, _ac.currentTime + 0.1);
+    o.start(); o.stop(_ac.currentTime + 0.1);
+  } catch(e) {}
+}
+function playSubmit() {
+  try {
+    [0, 0.12, 0.24].forEach((t, i) => {
+      const o = _ac.createOscillator(), g = _ac.createGain();
+      o.connect(g); g.connect(_ac.destination);
+      o.frequency.setValueAtTime([440, 550, 660][i], _ac.currentTime + t);
+      g.gain.setValueAtTime(0.1, _ac.currentTime + t);
+      g.gain.exponentialRampToValueAtTime(0.001, _ac.currentTime + t + 0.15);
+      o.start(_ac.currentTime + t); o.stop(_ac.currentTime + t + 0.15);
+    });
+  } catch(e) {}
+}
+function resumeAudio() { if (_ac.state === 'suspended') _ac.resume(); }
+
+// ============================================================
+// STATE
+// ============================================================
+let currentChapterIdx = 0, currentLevelIdx = 0;
+let timerInterval = null, timeLeft = 60, totalTime = 60, startTime = null;
+let score = 0, correctCount = 0, totalWords = 0, elapsedTime = 0;
+let sortOrder = [], sortWords = [], lastSortOrder = [];
+let wordEls = {}, placedWords = {}, lastPlacedWords = {};
+let myAnswers = [];
+let draggingIdx = null, draggingEl = null, dragGhost = null;
+
+// ============================================================
+// NAV
+// ============================================================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function openChapter(idx) {
+  currentChapterIdx = idx;
+  const ch = CHAPTERS[idx];
+  document.getElementById('chapter-title').textContent = ch.name;
+  document.getElementById('chapter-sub').textContent = ch.sub;
+  const list = document.getElementById('level-list');
+  list.innerHTML = '';
+  ch.levels.forEach((lvlIdx, i) => {
+    const lvl = LEVELS[lvlIdx];
+    const item = document.createElement('div');
+    const unlocked = checkUnlocked();
+    item.className = 'level-item' + ((lvl.free || unlocked) ? '' : ' locked');
+    item.innerHTML = `
+      <div class="level-num">${i+1}</div>
+      <div class="level-item-info">
+        <div class="level-item-name">${lvl.name}</div>
+        <div class="level-item-meta">${lvl.sub} · ${lvl.time}s</div>
+      </div>
+      <span class="level-status ${(lvl.free || unlocked) ? 'status-free' : 'status-locked'}">${(lvl.free || unlocked) ? 'ฟรี' : '🔒'}</span>
+    `;
+    item.onclick = () => { if (!lvl.free && !unlocked) { openModal('lock-modal'); return; } startLevel(lvlIdx); };
+    list.appendChild(item);
+  });
+  showScreen('level-screen');
+}
+
+function confirmBack() { clearInterval(timerInterval); showScreen('level-screen'); }
+
+// ============================================================
+// START LEVEL
+// ============================================================
+function startLevel(lvlIdx) {
+  currentLevelIdx = lvlIdx;
+  const lvl = LEVELS[lvlIdx];
+  timeLeft = lvl.time; totalTime = lvl.time;
+  score = 0; correctCount = 0; totalWords = 0; myAnswers = [];
+  placedWords = {}; wordEls = {}; draggingIdx = null;
+  sortOrder = []; sortWords = [];
+  lastSortOrder = []; lastPlacedWords = {};
+  document.getElementById('game-title').textContent = lvl.name;
+  document.getElementById('game-subtitle').textContent = lvl.sub;
+  document.getElementById('timer-val').textContent = timeLeft;
+  document.getElementById('timer-box').classList.remove('urgent');
+  const body = document.getElementById('game-body');
+  body.innerHTML = '';
+  if (lvl.mode === 'sort') buildSortMode(lvl, body);
+  else if (lvl.mode === 'quiz') buildQuizMode(lvl, body);
+  else buildGroupMode(lvl, body);
+  showScreen('game-screen');
+  startTime = Date.now();
+  clearInterval(timerInterval);
+  timerInterval = setInterval(tickTimer, 1000);
+}
+
+// ============================================================
+// SORT MODE
+// ============================================================
+function buildSortMode(lvl, body) {
+  sortWords = lvl.items.map((item, i) => ({ ...item, idx: i }));
+  sortOrder = new Array(sortWords.length).fill(null);
+  totalWords = sortWords.length;
+  if (lvl.shortNote) {
+    const note = document.createElement('div');
+    note.className = 'sort-instruction';
+    note.textContent = lvl.shortNote;
+    body.appendChild(note);
+  }
+  const inst = document.createElement('div');
+  inst.className = 'sort-instruction';
+  inst.textContent = 'ลากคำวางลงในช่องตามลำดับที่ถูกต้อง (1 → 6)';
+  body.appendChild(inst);
+  const sortGrid = document.createElement('div');
+  sortGrid.className = 'sort-grid';
+  sortGrid.id = 'sort-area';
+  for (let i = 0; i < sortWords.length; i++) {
+    const slot = document.createElement('div');
+    slot.className = 'sort-slot';
+    slot.dataset.slot = i;
+    slot.innerHTML = `<div class="slot-num">${i+1}</div><div class="slot-card" id="slot-card-${i}"><span class="slot-empty-hint">ลากมาวาง</span></div>`;
+    slot.addEventListener('dragover', e => { e.preventDefault(); slot.classList.add('drag-over'); });
+    slot.addEventListener('dragleave', () => slot.classList.remove('drag-over'));
+    slot.addEventListener('drop', e => { e.preventDefault(); slot.classList.remove('drag-over'); handleSortDrop(parseInt(slot.dataset.slot)); playDrop(); });
+    sortGrid.appendChild(slot);
+  }
+  body.appendChild(sortGrid);
+  const label = document.createElement('div');
+  label.className = 'word-bank-label';
+  label.textContent = '— คำทั้งหมด —';
+  body.appendChild(label);
+  const bank = document.createElement('div');
+  bank.className = 'word-bank';
+  bank.id = 'sort-bank';
+  [...sortWords].sort(() => Math.random() - 0.5).forEach(item => {
+    const card = createSortCard(item);
+    bank.appendChild(card);
+    wordEls[item.idx] = card;
+  });
+  body.appendChild(bank);
+  const sw = document.createElement('div');
+  sw.className = 'submit-wrap';
+  sw.innerHTML = `<button class="submit-btn" onclick="resumeAudio();playSubmit();submitSort()">✓ ตรวจคำตอบ</button>`;
+  body.appendChild(sw);
+}
+
+function createSortCard(item) {
+  const card = document.createElement('div');
+  card.className = 'sort-card';
+  card.dataset.idx = item.idx;
+  card.draggable = true;
+  card.innerHTML = `<span class="sort-card-grip">⠿</span><span>${item.text}</span>`;
+  card.addEventListener('dragstart', e => { draggingIdx = item.idx; e.dataTransfer.setData('text/plain', item.idx); card.classList.add('dragging'); });
+  card.addEventListener('dragend', () => card.classList.remove('dragging'));
+  card.addEventListener('touchstart', onTouchStart, { passive: false });
+  card.addEventListener('touchmove', onTouchMove, { passive: false });
+  card.addEventListener('touchend', onTouchEnd);
+  return card;
+}
+
+function handleSortDrop(slotIdx) {
+  if (draggingIdx === null) return;
+  const prevSlot = sortOrder.findIndex(v => v === draggingIdx);
+  if (prevSlot !== -1) { sortOrder[prevSlot] = null; document.getElementById(`slot-card-${prevSlot}`).innerHTML = `<span class="slot-empty-hint">ลากมาวาง</span>`; }
+  if (sortOrder[slotIdx] !== null) { const ex = sortOrder[slotIdx]; document.getElementById('sort-bank').appendChild(wordEls[ex]); wordEls[ex].classList.remove('dragging'); }
+  sortOrder[slotIdx] = draggingIdx;
+  const slotCard = document.getElementById(`slot-card-${slotIdx}`);
+  slotCard.innerHTML = '';
+  slotCard.appendChild(wordEls[draggingIdx]);
+  wordEls[draggingIdx].classList.remove('dragging');
+}
+
+function submitSort() {
+  clearInterval(timerInterval);
+  elapsedTime = Math.round((Date.now() - startTime) / 1000);
+  lastSortOrder = [...sortOrder]; // snapshot before result screen
+  score = 0; correctCount = 0;
+  sortWords.forEach((item, idx) => {
+    const mySlot = sortOrder.findIndex(v => v === idx);
+    const myOrder = mySlot + 1;
+    const correct = myOrder === item.order;
+    if (correct) { correctCount++; score += 10; }
+    myAnswers.push({ word: item.text, myAns: myOrder > 0 ? `ลำดับที่ ${myOrder}` : 'ไม่ได้วาง', correctAns: `ลำดับที่ ${item.order}`, isCorrect: correct, desc: item.desc });
+  });
+  showResult();
+}
+
+// ============================================================
+// GROUP MODE
+// ============================================================
+function buildGroupMode(lvl, body) {
+  totalWords = lvl.words.length;
+
+  // Optional level description banner
+  if (lvl.levelDesc) {
+    const banner = document.createElement('div');
+    banner.className = 'level-desc-banner';
+    banner.innerHTML = lvl.levelDesc;
+    body.appendChild(banner);
+  }
+
+  const rows = lvl.colRows || [lvl.columns.map((_,i) => i)];
+  const maxCols = Math.max(...rows.map(r => r.length));
+
+  rows.forEach((rowCols, rowIdx) => {
+    const n = rowCols.length;
+    const useGrid = maxCols;
+    const offset = Math.floor((useGrid - n) / 2);
+    const minH = lvl.colRowMinHeight && lvl.colRowMinHeight[rowIdx] ? lvl.colRowMinHeight[rowIdx] : null;
+
+    const colHeader = document.createElement('div');
+    colHeader.className = 'columns-header';
+    colHeader.style.gridTemplateColumns = `repeat(${useGrid},1fr)`;
+    if (offset > 0) {
+      const spacer = document.createElement('div');
+      spacer.style.gridColumn = `span ${offset}`;
+      colHeader.appendChild(spacer);
+    }
+    rowCols.forEach(i => {
+      const h = document.createElement('div');
+      h.className = `col-head ch${i%4}`;
+      h.innerHTML = lvl.columns[i].replace(/\n/g, '<br>');
+      colHeader.appendChild(h);
+    });
+    body.appendChild(colHeader);
+
+    const dzWrap = document.createElement('div');
+    dzWrap.className = 'drop-zones';
+    dzWrap.style.gridTemplateColumns = `repeat(${useGrid},1fr)`;
+    if (offset > 0) {
+      const spacer = document.createElement('div');
+      spacer.style.gridColumn = `span ${offset}`;
+      dzWrap.appendChild(spacer);
+    }
+    rowCols.forEach(i => {
+      const dz = document.createElement('div');
+      dz.className = `drop-zone dz${i%4}`;
+      dz.dataset.col = i;
+      if (minH) dz.style.minHeight = minH;
+      dz.innerHTML = `<div class="dz-hint">วางที่นี่</div>`;
+      dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
+      dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+      dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag-over'); handleGroupDrop(parseInt(dz.dataset.col), dz); playDrop(); });
+      dzWrap.appendChild(dz);
+    });
+    body.appendChild(dzWrap);
+  });
+  const label = document.createElement('div');
+  label.className = 'word-bank-label';
+  label.textContent = '— ลากคำไปวางในกลุ่มที่ถูกต้อง —';
+  body.appendChild(label);
+  const bank = document.createElement('div');
+  bank.className = 'word-bank';
+  bank.id = 'group-bank';
+  lvl.words.map((w,i) => i).sort(() => Math.random() - 0.5).forEach(idx => {
+    const card = createGroupCard(idx, lvl.words[idx].text);
+    bank.appendChild(card);
+    wordEls[idx] = card;
+  });
+  body.appendChild(bank);
+  const sw = document.createElement('div');
+  sw.className = 'submit-wrap';
+  sw.innerHTML = `<button class="submit-btn" onclick="resumeAudio();playSubmit();submitGroup()">✓ ตรวจคำตอบ</button>`;
+  body.appendChild(sw);
+}
+
+function createGroupCard(idx, text) {
+  const card = document.createElement('div');
+  card.className = 'word-card';
+  card.dataset.idx = idx;
+  // Render fraction if text contains ÷
+  if (text.includes('÷')) {
+    const [num, den] = text.split('÷').map(s => s.trim());
+    card.innerHTML = `<span class="frac-card"><span class="frac-num">${num}</span><span class="frac-line"></span><span class="frac-den">${den}</span></span>`;
+    card.style.textAlign = 'center';
+  } else {
+    card.textContent = text;
+  }
+  card.draggable = true;
+  card.addEventListener('dragstart', e => { draggingIdx = idx; e.dataTransfer.setData('text/plain', idx); card.classList.add('dragging'); });
+  card.addEventListener('dragend', () => card.classList.remove('dragging'));
+  card.addEventListener('touchstart', onTouchStart, { passive: false });
+  card.addEventListener('touchmove', onTouchMove, { passive: false });
+  card.addEventListener('touchend', onTouchEnd);
+  return card;
+}
+
+function handleGroupDrop(colIdx, dropZone) {
+  if (draggingIdx === null) return;
+  const card = wordEls[draggingIdx];
+  if (!card) return;
+  card.classList.remove('dragging');
+  card.remove();
+  const hint = dropZone.querySelector('.dz-hint');
+  if (hint) hint.style.display = 'none';
+  dropZone.appendChild(card);
+  card.className = `word-card placed-${colIdx%4}`;
+  placedWords[draggingIdx] = colIdx;
+}
+
+function submitGroup() {
+  clearInterval(timerInterval);
+  elapsedTime = Math.round((Date.now() - startTime) / 1000);
+  lastPlacedWords = {...placedWords}; // snapshot
+  const lvl = LEVELS[currentLevelIdx];
+  score = 0; correctCount = 0;
+  lvl.words.forEach((w, idx) => {
+    const myCol = placedWords[idx];
+    const correct = myCol === w.col;
+    if (correct) { correctCount++; score += 10; }
+    myAnswers.push({ word: w.text, myAns: myCol !== undefined ? lvl.columns[myCol] : 'ไม่ได้วาง', correctAns: lvl.columns[w.col], isCorrect: correct, desc: w.desc || '' });
+  });
+  totalWords = lvl.words.length;
+  showResult();
+}
+
+// ============================================================
+// TOUCH
+// ============================================================
+function onTouchStart(e) {
+  e.preventDefault();
+  const card = e.currentTarget;
+  draggingIdx = parseInt(card.dataset.idx);
+  draggingEl = card;
+  const touch = e.touches[0];
+  dragGhost = document.createElement('div');
+  dragGhost.className = 'drag-ghost';
+  dragGhost.textContent = card.querySelector('.frac-num') 
+    ? (card.querySelector('.frac-num').textContent + ' ÷ ' + card.querySelector('.frac-den').textContent)
+    : (card.querySelector('span:last-child') ? card.querySelector('span:last-child').textContent : card.textContent);
+  document.body.appendChild(dragGhost);
+  moveGhost(touch.clientX, touch.clientY);
+  card.classList.add('dragging');
+}
+
+function onTouchMove(e) {
+  if (!dragGhost) return;
+  e.preventDefault();
+  const touch = e.touches[0];
+  moveGhost(touch.clientX, touch.clientY);
+  document.querySelectorAll('.sort-slot,.drop-zone').forEach(el => el.classList.remove('drag-over'));
+  const under = document.elementFromPoint(touch.clientX, touch.clientY);
+  const slot = under ? under.closest('.sort-slot') : null;
+  const dz = under ? under.closest('.drop-zone') : null;
+  if (slot) slot.classList.add('drag-over');
+  if (dz) dz.classList.add('drag-over');
+}
+
+function onTouchEnd(e) {
+  if (!dragGhost) return;
+  const touch = e.changedTouches[0];
+  document.querySelectorAll('.sort-slot,.drop-zone').forEach(el => el.classList.remove('drag-over'));
+  const under = document.elementFromPoint(touch.clientX, touch.clientY);
+  const slot = under ? under.closest('.sort-slot') : null;
+  const dz = under ? under.closest('.drop-zone') : null;
+  if (slot) { handleSortDrop(parseInt(slot.dataset.slot)); resumeAudio(); playDrop(); }
+  else if (dz) { handleGroupDrop(parseInt(dz.dataset.col), dz); resumeAudio(); playDrop(); }
+  if (draggingEl) draggingEl.classList.remove('dragging');
+  dragGhost.remove(); dragGhost = null;
+  draggingEl = null; draggingIdx = null;
+}
+
+function moveGhost(x, y) { if (dragGhost) { dragGhost.style.left = x+'px'; dragGhost.style.top = y+'px'; } }
+
+// ============================================================
+// TIMER
+// ============================================================
+function tickTimer() {
+  timeLeft--;
+  document.getElementById('timer-val').textContent = timeLeft;
+  if (timeLeft <= 10) document.getElementById('timer-box').classList.add('urgent');
+  if (timeLeft <= 0) {
+    const lvl = LEVELS[currentLevelIdx];
+    if (lvl.mode === 'sort') submitSort(); else submitGroup();
+  }
+}
+
+// ============================================================
+// RESULT
+// ============================================================
+function showResult() {
+  const maxScore = totalWords * 10;
+  const ratio = correctCount / totalWords;
+  document.getElementById('result-level-name').textContent = LEVELS[currentLevelIdx].name;
+  document.getElementById('r-score').textContent = `${score}/${maxScore}`;
+  document.getElementById('r-correct').textContent = `${correctCount}/${totalWords}`;
+  document.getElementById('r-time').textContent = elapsedTime + 's';
+  let emoji, heading;
+  if (ratio === 1) { emoji = '🎉'; heading = 'สมบูรณ์แบบ!'; }
+  else if (ratio >= 0.7) { emoji = '👍'; heading = 'ทำได้ดี!'; }
+  else if (ratio >= 0.5) { emoji = '💪'; heading = 'พยายามต่อไป!'; }
+  else { emoji = '📚'; heading = 'ต้องฝึกอีกหน่อย'; }
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-heading').textContent = heading;
+
+  buildReviewBoard();
+  showingCorrect = false;
+  const showBtn = document.getElementById('show-answer-btn');
+  showBtn.textContent = '🔄 แสดงคำตอบที่ถูกต้อง';
+  showBtn.disabled = false;
+  const hasWrong = myAnswers.some(a => !a.isCorrect);
+  document.getElementById('show-answer-btn').style.display = hasWrong ? '' : 'none';
+  document.getElementById('explain-btn').style.display = myAnswers.some(a => a.desc) ? '' : 'none';
+  showScreen('result-screen');
+  if (ratio === 1) spawnConfetti();
+}
+
+function buildReviewBoard() {
+  showingCorrect = false;
+  const board = document.getElementById('review-board');
+  board.innerHTML = '';
+  board.style.cssText = 'background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow);';
+  const lvl = LEVELS[currentLevelIdx];
+
+  if (lvl.mode === 'sort') {
+    const grid = document.createElement('div');
+    grid.className = 'sort-grid';
+    grid.id = 'result-sort-grid';
+    grid.style.pointerEvents = 'none';
+
+    // render slots in order 0..n (slot positions), place word that was put there
+    for (let slotIdx = 0; slotIdx < sortWords.length; slotIdx++) {
+      const wordIdx = lastSortOrder[slotIdx]; // which word is in this slot (-1 = empty)
+      const item = wordIdx !== null && wordIdx !== undefined ? sortWords[wordIdx] : null;
+      const isCorrect = item ? (slotIdx + 1) === item.order : false;
+
+      const slot = document.createElement('div');
+      slot.className = 'sort-slot';
+
+      const badge = document.createElement('div');
+      badge.className = `slot-badge ${item ? (isCorrect ? 'correct' : 'wrong') : 'wrong'}`;
+      badge.textContent = item ? (isCorrect ? '✓' : '✗') : '✗';
+      slot.appendChild(badge);
+
+      const num = document.createElement('div');
+      num.className = 'slot-num';
+      num.textContent = slotIdx + 1;
+      slot.appendChild(num);
+
+      const cardWrap = document.createElement('div');
+      cardWrap.className = 'slot-card';
+
+      if (item) {
+        const card = document.createElement('div');
+        card.className = 'sort-card';
+        card.style.cssText = `cursor:default;border:1.5px solid ${isCorrect ? 'rgba(45,106,79,0.4)' : 'rgba(230,57,70,0.4)'};background:${isCorrect ? 'rgba(45,106,79,0.06)' : 'rgba(230,57,70,0.06)'};`;
+        card.dataset.wordidx = wordIdx;
+        card.dataset.correctslot = item.order - 1;
+        card.dataset.isCorrect = isCorrect ? '1' : '0';
+        card.innerHTML = `<span>${item.text}</span>`;
+        cardWrap.appendChild(card);
+      } else {
+        cardWrap.innerHTML = `<span class="slot-empty-hint">ไม่ได้วาง</span>`;
+      }
+
+      slot.appendChild(cardWrap);
+      grid.appendChild(slot);
+    }
+
+    // also render words that were never placed (still in bank)
+    sortWords.forEach((item, wordIdx) => {
+      const placed = lastSortOrder.includes(wordIdx);
+      if (placed) return;
+      // find the correct slot and show there as wrong
+      const slot = grid.querySelectorAll('.sort-slot')[item.order - 1];
+      if (!slot) return;
+      const card = document.createElement('div');
+      card.className = 'sort-card';
+      card.style.cssText = 'cursor:default;border:1.5px solid rgba(230,57,70,0.4);background:rgba(230,57,70,0.06);';
+      card.dataset.wordidx = wordIdx;
+      card.dataset.correctslot = item.order - 1;
+      card.dataset.isCorrect = '0';
+      card.innerHTML = `<span>${item.text} (ไม่ได้วาง)</span>`;
+      const wrap = slot.querySelector('.slot-card');
+      if (wrap) { wrap.innerHTML = ''; wrap.appendChild(card); }
+      const badge = slot.querySelector('.slot-badge');
+      if (badge) { badge.className = 'slot-badge wrong'; badge.textContent = '✗'; }
+    });
+
+    board.appendChild(grid);
+
+  } else {
+    const rows = lvl.colRows || [lvl.columns.map((_,i) => i)];
+    const maxCols = Math.max(...rows.map(r => r.length));
+
+    rows.forEach((rowCols, rowIdx) => {
+      const n = rowCols.length;
+      const useGrid = maxCols;
+      const offset = Math.floor((useGrid - n) / 2);
+      const minH = lvl.colRowMinHeight && lvl.colRowMinHeight[rowIdx] ? lvl.colRowMinHeight[rowIdx] : null;
+
+      const colHeader = document.createElement('div');
+      colHeader.className = 'columns-header';
+      colHeader.style.cssText = `grid-template-columns:repeat(${useGrid},1fr);margin-bottom:8px;`;
+      if (offset > 0) {
+        const sp = document.createElement('div');
+        sp.style.gridColumn = `span ${offset}`;
+        colHeader.appendChild(sp);
+      }
+      rowCols.forEach(i => {
+        const h = document.createElement('div');
+        h.className = `col-head ch${i%4}`;
+        h.innerHTML = lvl.columns[i].replace(/\n/g, '<br>');
+        colHeader.appendChild(h);
+      });
+      board.appendChild(colHeader);
+
+      const dzWrap = document.createElement('div');
+      dzWrap.className = 'drop-zones result-dz-wrap';
+      dzWrap.style.cssText = `grid-template-columns:repeat(${useGrid},1fr);pointer-events:none;overflow:visible;margin-bottom:10px;align-items:stretch;`;
+
+      if (offset > 0) {
+        const sp = document.createElement('div');
+        sp.style.gridColumn = `span ${offset}`;
+        dzWrap.appendChild(sp);
+      }
+
+      rowCols.forEach(i => {
+        const dz = document.createElement('div');
+        dz.className = `drop-zone dz${i%4}`;
+        dz.style.cssText = `overflow:visible;height:auto;${minH ? 'min-height:'+minH+';' : ''}`;
+        dz.dataset.col = i;
+
+        lvl.words.forEach((w, idx) => {
+          const myCol = lastPlacedWords[idx];
+          if (myCol !== i) return;
+          const isCorrect = w.col === i;
+          const card = document.createElement('div');
+          card.className = `word-card placed-${i%4}`;
+          card.style.cssText = `cursor:default;position:relative;border:1.5px solid ${isCorrect ? 'rgba(45,106,79,0.5)' : 'rgba(230,57,70,0.5)'};background:${isCorrect ? 'rgba(45,106,79,0.08)' : 'rgba(230,57,70,0.08)'};`;
+          card.dataset.wordidx = idx;
+          card.dataset.correctcol = w.col;
+          card.dataset.isCorrect = isCorrect ? '1' : '0';
+          const badge = document.createElement('span');
+          badge.className = `dz-badge ${isCorrect ? 'correct' : 'wrong'}`;
+          badge.textContent = isCorrect ? '✓' : '✗';
+          card.appendChild(badge);
+          const label = document.createElement('span');
+          label.textContent = w.text;
+          label.style.paddingLeft = '16px';
+          card.appendChild(label);
+          dz.appendChild(card);
+        });
+
+        lvl.words.forEach((w, idx) => {
+          if (lastPlacedWords[idx] !== undefined) return;
+          if (w.col !== i) return;
+          const card = document.createElement('div');
+          card.className = 'word-card';
+          card.style.cssText = 'cursor:default;position:relative;border:1.5px solid rgba(230,57,70,0.5);background:rgba(230,57,70,0.06);';
+          card.dataset.wordidx = idx;
+          card.dataset.correctcol = w.col;
+          card.dataset.isCorrect = '0';
+          const badge = document.createElement('span');
+          badge.className = 'dz-badge wrong';
+          badge.textContent = '✗';
+          card.appendChild(badge);
+          const label = document.createElement('span');
+          label.textContent = w.text + ' (ไม่ได้วาง)';
+          label.style.cssText = 'padding-left:16px;font-size:0.75rem;';
+          card.appendChild(label);
+          dz.appendChild(card);
+        });
+
+        dzWrap.appendChild(dz);
+      });
+      board.appendChild(dzWrap);
+    });
+  }
+}
+
+let showingCorrect = false;
+let _wrongCardSnapshots = []; // stores {card, fromCol, toCol, fromRect, toRect} for toggle
+
+function animateCorrectAnswers() {
+  const btn = document.getElementById('show-answer-btn');
+  const lvl = LEVELS[currentLevelIdx];
+  const DURATION = 800;
+  showingCorrect = !showingCorrect;
+  btn.textContent = showingCorrect ? '↩ ดูคำตอบของฉัน' : '🔄 แสดงคำตอบที่ถูกต้อง';
+
+  if (lvl.mode === 'sort') {
+    const grid = document.getElementById('result-sort-grid');
+    if (!grid) return;
+    const slots = Array.from(grid.querySelectorAll('.sort-slot'));
+
+    if (showingCorrect) {
+      // Build snapshots fresh from current DOM state
+      _wrongCardSnapshots = [];
+      grid.querySelectorAll('.sort-card[data-is-correct="0"]').forEach(card => {
+        const correctSlotIdx = parseInt(card.dataset.correctslot);
+        const fromSlot = card.closest('.sort-slot');
+        const fromIdx = slots.indexOf(fromSlot);
+        if (fromIdx === correctSlotIdx) return;
+        const targetSlotCard = slots[correctSlotIdx].querySelector('.slot-card');
+        _wrongCardSnapshots.push({
+          card, fromSlot,
+          fromRect: card.getBoundingClientRect(),
+          toRect: targetSlotCard ? targetSlotCard.getBoundingClientRect() : slots[correctSlotIdx].getBoundingClientRect(),
+        });
+      });
+    }
+
+    _wrongCardSnapshots.forEach(({ card, fromSlot, fromRect, toRect }) => {
+      if (showingCorrect) {
+        card.style.transition = `transform ${DURATION}ms cubic-bezier(0.4,0,0.2,1)`;
+        card.style.transform = `translate(${toRect.left - fromRect.left}px,${toRect.top - fromRect.top}px)`;
+        card.style.zIndex = '50';
+        card.style.border = '1.5px solid rgba(45,106,79,0.5)';
+        card.style.background = 'rgba(45,106,79,0.06)';
+        setTimeout(() => { const b = fromSlot.querySelector('.slot-badge'); if(b){b.className='slot-badge correct';b.textContent='✓';} }, DURATION * 0.75);
+      } else {
+        card.style.transition = `transform ${DURATION}ms cubic-bezier(0.4,0,0.2,1)`;
+        card.style.transform = '';
+        card.style.zIndex = '';
+        card.style.border = '1.5px solid rgba(230,57,70,0.4)';
+        card.style.background = 'rgba(230,57,70,0.06)';
+        setTimeout(() => { const b = fromSlot.querySelector('.slot-badge'); if(b){b.className='slot-badge wrong';b.textContent='✗';} }, DURATION * 0.75);
+      }
+    });
+
+  } else {
+    // GROUP MODE — real DOM move + FLIP animation
+    const dropZones = Array.from(document.querySelectorAll('.result-dz-wrap .drop-zone'));
+    const dzByCol = {};
+    dropZones.forEach(dz => { dzByCol[parseInt(dz.dataset.col)] = dz; });
+
+    const wrongCards = Array.from(document.querySelectorAll('.result-dz-wrap [data-is-correct="0"]')).filter(card => {
+      const correctCol = parseInt(card.dataset.correctcol);
+      const origCol = card.dataset.origCol !== undefined ? parseInt(card.dataset.origCol) : parseInt(card.closest('.drop-zone')?.dataset.col ?? '-1');
+      return origCol !== correctCol;
+    });
+
+    wrongCards.forEach(card => {
+      // Store original parent col on first toggle
+      if (card.dataset.origCol === undefined) {
+        card.dataset.origCol = card.closest('.drop-zone')?.dataset.col ?? '-1';
+      }
+
+      const correctCol = parseInt(card.dataset.correctcol);
+      const origCol = parseInt(card.dataset.origCol);
+      const targetDz = dzByCol[showingCorrect ? correctCol : origCol];
+      if (!targetDz) return;
+
+      // FLIP: record position before move
+      const first = card.getBoundingClientRect();
+
+      // Move in DOM
+      targetDz.appendChild(card);
+
+      // Record new position
+      const last = card.getBoundingClientRect();
+
+      // Invert
+      const dx = first.left - last.left;
+      const dy = first.top - last.top;
+      card.style.transition = 'none';
+      card.style.transform = `translate(${dx}px,${dy}px)`;
+      card.style.zIndex = '50';
+
+      const isNowCorrect = showingCorrect;
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        card.style.transition = `transform ${DURATION}ms cubic-bezier(0.4,0,0.2,1)`;
+        card.style.transform = '';
+        card.style.border = `1.5px solid ${isNowCorrect ? 'rgba(45,106,79,0.5)' : 'rgba(230,57,70,0.5)'}`;
+        card.style.background = isNowCorrect ? 'rgba(45,106,79,0.08)' : 'rgba(230,57,70,0.08)';
+        setTimeout(() => {
+          card.style.zIndex = '';
+          const b = card.querySelector('.dz-badge');
+          if (b) { b.className = `dz-badge ${isNowCorrect ? 'correct' : 'wrong'}`; b.textContent = isNowCorrect ? '✓' : '✗'; }
+        }, DURATION * 0.75);
+      }));
+    });
+  }
+}
+// ============================================================
+// QUIZ MODE
+// ============================================================
+let quizState = { scenarioIdx: 0, qIdx: 0, results: [], answered: false };
+
+function buildQuizMode(lvl, body) {
+  quizState = { scenarioIdx: 0, qIdx: 0, results: [], answered: false };
+  totalWords = lvl.questions.reduce((s, sc) => s + sc.questions.length, 0);
+  renderQuizStep(lvl, body);
+}
+
+function renderQuizStep(lvl, body) {
+  body.innerHTML = '';
+  const sc = lvl.questions[quizState.scenarioIdx];
+  const qData = sc.questions[quizState.qIdx];
+  const totalQs = lvl.questions.reduce((s, s2) => s + s2.questions.length, 0);
+  const doneCount = quizState.results.length;
+
+  // Progress dots
+  const prog = document.createElement('div');
+  prog.className = 'quiz-progress';
+  for (let i = 0; i < totalQs; i++) {
+    const dot = document.createElement('div');
+    const r = quizState.results[i];
+    dot.className = 'quiz-dot' + (i < doneCount ? (r.correct ? ' done-correct' : ' done-wrong') : i === doneCount ? ' active' : '');
+    prog.appendChild(dot);
+  }
+  body.appendChild(prog);
+
+  // Scenario card
+  const scenCard = document.createElement('div');
+  scenCard.className = 'quiz-scenario';
+  scenCard.innerHTML = `<b style="font-size:0.75rem;color:var(--muted);font-family:'Prompt',sans-serif">โจทย์</b><br>${sc.scenario}`;
+  // Known vars chips
+  const varsDiv = document.createElement('div');
+  varsDiv.className = 'quiz-vars';
+  Object.entries(sc.vars).forEach(([k, v]) => {
+    const chip = document.createElement('div');
+    chip.className = 'quiz-var-chip';
+    chip.textContent = `${k} = ${v}`;
+    varsDiv.appendChild(chip);
+  });
+  scenCard.appendChild(varsDiv);
+  body.appendChild(scenCard);
+
+  // Question block
+  const qBlock = document.createElement('div');
+  qBlock.className = 'quiz-q-block';
+  const counter = document.createElement('div');
+  counter.className = 'quiz-q-counter';
+  counter.textContent = `คำถาม ${doneCount + 1} / ${totalQs}`;
+  qBlock.appendChild(counter);
+  const qText = document.createElement('div');
+  qText.className = 'quiz-q-text';
+  qText.textContent = qData.q;
+  qBlock.appendChild(qText);
+
+  const choicesDiv = document.createElement('div');
+  choicesDiv.className = 'quiz-choices';
+  qData.choices.forEach(ch => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-choice';
+    btn.textContent = ch;
+    btn.onclick = () => handleQuizAnswer(lvl, body, ch, qData, btn, choicesDiv, explainDiv);
+    choicesDiv.appendChild(btn);
+  });
+  qBlock.appendChild(choicesDiv);
+
+  const explainDiv = document.createElement('div');
+  explainDiv.className = 'quiz-explain';
+  explainDiv.innerHTML = qData.explain;
+  qBlock.appendChild(explainDiv);
+
+  body.appendChild(qBlock);
+}
+
+function handleQuizAnswer(lvl, body, chosen, qData, btn, choicesDiv, explainDiv) {
+  if (quizState.answered) return;
+  quizState.answered = true;
+  const correct = chosen === qData.answer;
+  if (correct) { correctCount++; score += 10; }
+  quizState.results.push({ correct, chosen, answer: qData.answer, q: qData.q, explain: qData.explain });
+
+  // Show feedback on choices
+  Array.from(choicesDiv.querySelectorAll('.quiz-choice')).forEach(b => {
+    b.disabled = true;
+    if (b.textContent === qData.answer) b.classList.add('correct');
+    else if (b.textContent === chosen) b.classList.add('wrong');
+  });
+  explainDiv.style.display = 'block';
+
+  // Next button
+  const nextWrap = document.createElement('div');
+  nextWrap.className = 'submit-wrap';
+  const allQs = lvl.questions.reduce((a, sc) => a.concat(sc.questions), []);
+  const nextIdx = quizState.results.length;
+  const isLast = nextIdx >= allQs.length;
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'submit-btn';
+  nextBtn.textContent = isLast ? '✓ ดูผลลัพธ์' : 'ข้อถัดไป →';
+  nextBtn.onclick = () => {
+    if (isLast) {
+      finishQuiz(lvl);
+    } else {
+      // advance pointers
+      quizState.answered = false;
+      let sc = lvl.questions[quizState.scenarioIdx];
+      quizState.qIdx++;
+      if (quizState.qIdx >= sc.questions.length) {
+        quizState.scenarioIdx++;
+        quizState.qIdx = 0;
+      }
+      renderQuizStep(lvl, body);
+    }
+  };
+  nextWrap.appendChild(nextBtn);
+  body.appendChild(nextWrap);
+}
+
+function finishQuiz(lvl) {
+  clearInterval(timerInterval);
+  elapsedTime = Math.round((Date.now() - startTime) / 1000);
+  const allQs = lvl.questions.reduce((a, sc) => a.concat(sc.questions), []);
+  myAnswers = quizState.results.map((r, i) => ({
+    word: allQs[i].q,
+    myAns: r.chosen,
+    correctAns: r.answer,
+    isCorrect: r.correct,
+    desc: r.explain
+  }));
+  totalWords = allQs.length;
+  showResult();
+}
+
+function updateCharCount() {
+  const len = document.getElementById('fb-text').value.length;
+  const el = document.getElementById('fb-charcount');
+  el.textContent = `${len} / 80 ตัวอักษร`;
+  el.className = 'feedback-charcount' + (len >= 80 ? ' ok' : '');
+}
+
+function submitFeedbackUnlock() {
+  const text = document.getElementById('fb-text').value.trim();
+  const score = document.getElementById('fb-score').value;
+  const los = document.getElementById('fb-los').value;
+  const levels = document.getElementById('fb-levels').value.trim();
+  const err = document.getElementById('fb-error');
+
+  if (text.length < 80 || !score || !los || !levels) {
+    err.style.display = 'block';
+    return;
+  }
+  err.style.display = 'none';
+
+  // Save to localStorage
+  try {
+    const fb = { text, score, los, levels, ts: new Date().toISOString() };
+    localStorage.setItem('cfp_feedback', JSON.stringify(fb));
+    localStorage.setItem('cfp_unlocked', '1');
+  } catch(e) {}
+
+  // Unlock all levels in UI
+  document.querySelectorAll('.level-item.locked').forEach(el => {
+    el.classList.remove('locked');
+    const badge = el.querySelector('.level-badge');
+    if (badge) badge.remove();
+  });
+
+  closeModal('lock-modal');
+
+  // Re-render level list to reflect unlocked state
+  openChapter(currentChapterIdx);
+
+  // Show thank you toast
+  const toast = document.createElement('div');
+  toast.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:var(--accent);color:white;padding:12px 24px;border-radius:24px;font-family:Prompt,sans-serif;font-size:0.85rem;font-weight:600;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,0.2)';
+  toast.textContent = '🎉 ขอบคุณ! ปลดล็อคทุกด่านแล้ว';
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+function checkUnlocked() {
+  try { return localStorage.getItem('cfp_unlocked') === '1'; } catch(e) { return false; }
+}
+
+function openExplain() {
+  const content = document.getElementById('explain-content');
+  content.innerHTML = '';
+  myAnswers.filter(a => a.desc).forEach(a => {
+    const item = document.createElement('div');
+    item.className = 'explain-item';
+    item.innerHTML = `<div class="explain-term">${a.word}</div><div class="explain-text">${a.desc.replace(/\n/g,'<br>')}</div>`;
+    content.appendChild(item);
+  });
+  openModal('explain-modal');
+}
+
+function retryLevel() { startLevel(currentLevelIdx); }
+
+// ============================================================
+// MODALS
+// ============================================================
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function closeModalIfOutside(e, id) { if (e.target === document.getElementById(id)) closeModal(id); }
+
+// ============================================================
+// CONFETTI
+// ============================================================
+function spawnConfetti() {
+  const wrap = document.createElement('div');
+  wrap.className = 'confetti-wrap';
+  document.body.appendChild(wrap);
+  const colors = ['#2d6a4f','#e76f51','#457b9d','#e9c46a','#f4a261'];
+  for (let i = 0; i < 60; i++) {
+    const d = document.createElement('div');
+    d.className = 'confetti-dot';
+    d.style.left = Math.random()*100+'vw';
+    d.style.background = colors[Math.floor(Math.random()*colors.length)];
+    d.style.animationDuration = (1.5+Math.random()*2)+'s';
+    d.style.animationDelay = Math.random()*0.8+'s';
+    d.style.width = d.style.height = (6+Math.random()*8)+'px';
+    wrap.appendChild(d);
+  }
+  setTimeout(() => wrap.remove(), 3500);
+}
+</script>
+</body>
+</html>

@@ -528,18 +528,25 @@ body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-se
           <label class="feedback-label">บทเรียนที่อยากให้เพิ่มด่าน *</label>
           <select class="feedback-select" id="fb-los">
             <option value="">เลือก...</option>
-            <option value="LOS1">LOS 1</option>
-            <option value="LOS2">LOS 2</option>
-            <option value="LOS3">LOS 3</option>
-            <option value="LOS4">LOS 4</option>
-            <option value="LOS5">LOS 5</option>
-            <option value="LOS6-8">LOS 6-8</option>
+            <option value="LOS1">LOS 1 — การวางแผนการเงิน</option>
+            <option value="LOS2">LOS 2 — บริหารสภาพคล่อง</option>
+            <option value="LOS3">LOS 3 — มูลค่าเงินตามเวลา</option>
+            <option value="LOS4">LOS 4 — รวบรวมข้อมูลฯ</option>
+            <option value="LOS5">LOS 5 — วิเคราะห์ข้อมูลฯ</option>
+            <option value="LOS6-8">LOS 6-8 — ภาษีเงินได้ฯ</option>
+            <option value="ด่านมีเพียงพอแล้ว">ด่านมีเพียงพอแล้ว</option>
           </select>
         </div>
       </div>
 
       <label class="feedback-label">1 บทเรียนควรมีกี่ด่าน *</label>
-      <input class="feedback-input" id="fb-levels" type="number" min="1" max="20" placeholder="ใส่ตัวเลข เช่น 3" style="margin-bottom:14px">
+      <select class="feedback-select" id="fb-levels" style="margin-bottom:14px">
+        <option value="">เลือก...</option>
+        <option value="1-3">1-3 ด่าน</option>
+        <option value="4-8">4-8 ด่าน</option>
+        <option value="10-15">10-15 ด่าน</option>
+        <option value="ยิ่งเยอะยิ่งดี">ยิ่งเยอะยิ่งดี</option>
+      </select>
 
       <div class="feedback-error" id="fb-error">กรุณากรอกให้ครบและเขียนคำแนะนำอย่างน้อย 80 ตัวอักษร</div>
       <button class="lock-contact-btn" onclick="submitFeedbackUnlock()">✓ ส่งคำแนะนำและปลดล็อค</button>
@@ -2011,7 +2018,7 @@ function submitFeedbackUnlock() {
   const text = document.getElementById('fb-text').value.trim();
   const score = document.getElementById('fb-score').value;
   const los = document.getElementById('fb-los').value;
-  const levels = document.getElementById('fb-levels').value.trim();
+  const levels = document.getElementById('fb-levels').value;
   const err = document.getElementById('fb-error');
 
   if (!name || !email || text.length < 80 || !score || !los || !levels) {

@@ -502,6 +502,12 @@ body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-se
       <div class="lock-title">รบกวนกรอกคำแนะนำเพื่อปลดล็อคด่านที่เหลือ</div>
       <div class="lock-desc">คำแนะนำของท่านมีคุณค่ามากสำหรับการพัฒนาเกมนี้ กรุณากรอกอย่างน้อย 80 ตัวอักษร</div>
 
+      <label class="feedback-label">ชื่อ *</label>
+      <input class="feedback-input" id="fb-name" type="text" placeholder="ชื่อของท่าน" style="margin-bottom:12px">
+
+      <label class="feedback-label">อีเมล *</label>
+      <input class="feedback-input" id="fb-email" type="email" placeholder="email@example.com" style="margin-bottom:14px">
+
       <label class="feedback-label">คำแนะนำหรือความคิดเห็น *</label>
       <textarea class="feedback-textarea" id="fb-text" rows="4" placeholder="เขียนความคิดเห็น คำแนะนำ หรือสิ่งที่อยากให้ปรับปรุง..." oninput="updateCharCount()"></textarea>
       <div class="feedback-charcount" id="fb-charcount">0 / 80 ตัวอักษร</div>
@@ -2000,29 +2006,34 @@ function updateCharCount() {
 }
 
 function submitFeedbackUnlock() {
+  const name = document.getElementById('fb-name').value.trim();
+  const email = document.getElementById('fb-email').value.trim();
   const text = document.getElementById('fb-text').value.trim();
   const score = document.getElementById('fb-score').value;
   const los = document.getElementById('fb-los').value;
   const levels = document.getElementById('fb-levels').value.trim();
   const err = document.getElementById('fb-error');
 
-  if (text.length < 80 || !score || !los || !levels) {
+  if (!name || !email || text.length < 80 || !score || !los || !levels) {
     err.style.display = 'block';
+    err.textContent = 'กรุณากรอกให้ครบทุกช่อง และเขียนคำแนะนำอย่างน้อย 80 ตัวอักษร';
     return;
   }
   err.style.display = 'none';
 
   // Save to localStorage
   try {
-    const fb = { text, score, los, levels, ts: new Date().toISOString() };
+    const fb = { name, email, text, score, los, levels, ts: new Date().toISOString() };
     localStorage.setItem('cfp_feedback', JSON.stringify(fb));
     localStorage.setItem('cfp_unlocked', '1');
   } catch(e) {}
 
-  // Send to Google Forms (no-cors, fire and forget)
+  // Send to Google Forms
   try {
     const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSe7J1u8PIuUfXaCWS6ecUNG2VNBPNEQZqKK6M4541uWJNyoWw/formResponse';
     const body = new FormData();
+    body.append('entry.495346173', name);
+    body.append('entry.270585560', email);
     body.append('entry.1829967480', text);
     body.append('entry.61759061', score);
     body.append('entry.687176357', los);
@@ -2041,7 +2052,6 @@ function submitFeedbackUnlock() {
   closeModal('lock-modal');
   openChapter(currentChapterIdx);
 
-  // Show thank you toast
   const toast = document.createElement('div');
   toast.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:var(--accent);color:white;padding:12px 24px;border-radius:24px;font-family:Prompt,sans-serif;font-size:0.85rem;font-weight:600;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,0.2)';
   toast.textContent = '🎉 ขอบคุณ! ปลดล็อคทุกด่านแล้ว';

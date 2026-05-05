@@ -29,9 +29,20 @@ body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-se
 .screen.active { display: flex; }
 
 /* HOME */
-#home-screen { background: var(--bg); padding: 0; }
-.home-hero { width: 100%; background: var(--text); color: white; padding: 48px 24px 36px; text-align: center; position: relative; overflow: hidden; }
-.home-hero::before { content: ''; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; border-radius: 50%; background: rgba(255,255,255,0.04); }
+#home-screen { background: #18321b; }
+.chapter-list { background: var(--bg); gap: 10px; }
+.chapter-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; cursor: pointer; transition: all 0.2s; box-shadow: var(--shadow); display: flex; align-items: center; gap: 16px; }
+.chapter-card:active { transform: scale(0.98); box-shadow: none; }
+.chapter-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+.chapter-name { font-size: 0.95rem; font-weight: 700; color: #323232; margin-bottom: 4px; }
+.chapter-meta { font-size: 0.75rem; color: var(--muted); font-family: 'Sarabun', sans-serif; }
+.chapter-arrow { color: var(--muted); font-size: 1.2rem; }
+.home-footer-stats { background: #18321b; border-radius: 16px; border: none; }
+.home-footer-stats .hero-stat-val { color: #bed860; }
+.home-footer-stats .hero-stat-label { color: rgba(255,255,255,0.4); }
+.contact-footer { background: #18321b; border: none; color: rgba(255,255,255,0.4); }
+.home-hero { width: 100%; padding: 0; overflow: hidden; }
+.home-hero::before { display: none; }
 .hero-badge { display: inline-block; background: rgba(233,196,106,0.2); border: 1px solid rgba(233,196,106,0.4); color: var(--gold); font-size: 0.72rem; font-weight: 600; letter-spacing: 1.5px; padding: 4px 14px; border-radius: 20px; margin-bottom: 16px; text-transform: uppercase; }
 .hero-title { font-size: 2.4rem; font-weight: 800; line-height: 1.1; margin-bottom: 8px; }
 .hero-sub { font-family: 'Sarabun', sans-serif; color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-bottom: 24px; }
@@ -49,8 +60,14 @@ body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-se
 .chapter-arrow { color: var(--muted); font-size: 1.2rem; }
 
 /* LEVEL SELECT */
-#level-screen { background: var(--bg); padding: 0; }
-.level-header { width: 100%; background: var(--text); color: white; padding: 20px 20px 24px; display: flex; align-items: center; gap: 14px; }
+.level-header { width: 100%; background: #18321b; color: white; padding: 20px 20px 24px; display: flex; align-items: center; gap: 14px; }
+.level-header-title { font-size: 1rem; font-weight: 700; color: white; }
+.level-header-sub { font-size: 0.75rem; color: rgba(255,255,255,0.5); font-family: 'Sarabun', sans-serif; }
+.level-num { width: 36px; height: 36px; border-radius: 10px; background: #18321b; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
+.submit-btn { width: 100%; padding: 15px; background: #18321b; color: white; border: none; border-radius: 14px; font-family: 'Prompt', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: var(--shadow); }
+.submit-btn:active { transform: scale(0.98); }
+#result-screen { background: var(--bg); padding: 0; justify-content: flex-start; }
+.result-header { width: 100%; background: #18321b; color: white; padding: 28px 20px 32px; text-align: center; }
 .back-btn { width: 38px; height: 38px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: white; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s; }
 .back-btn:active { transform: scale(0.9); }
 .back-btn.dark { border-color: var(--border); color: var(--text); }
@@ -67,20 +84,21 @@ body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-se
 .level-item-name { font-size: 0.88rem; font-weight: 600; margin-bottom: 2px; }
 .level-item-meta { font-size: 0.72rem; color: var(--muted); font-family: 'Sarabun', sans-serif; }
 .level-status { font-size: 0.7rem; padding: 3px 10px; border-radius: 20px; font-weight: 600; flex-shrink: 0; }
-.status-free { background: rgba(45,106,79,0.12); color: var(--green); }
+.status-free { background: rgba(190,216,96,0.2); color: #18321b; }
 .status-locked { background: rgba(196,181,160,0.2); color: var(--locked); }
 .lock-tooltip { width: calc(100% - 32px); max-width: 448px; background: #fff8ed; border: 1px solid #f4d090; border-radius: 12px; padding: 14px 18px; font-size: 0.82rem; color: #8a6020; font-family: 'Sarabun', sans-serif; line-height: 1.6; text-align: center; margin-bottom: 24px; }
 
 /* GAME */
 #game-screen { background: var(--bg); padding: 0; justify-content: flex-start; }
-.game-topbar { width: 100%; background: var(--surface); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100; }
+.game-topbar { width: 100%; background: #18321b; border-bottom: none; padding: 12px 16px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100; }
 .game-title-wrap { flex: 1; }
-.game-title { font-size: 0.85rem; font-weight: 700; line-height: 1.2; }
-.game-subtitle { font-size: 0.7rem; color: var(--muted); font-family: 'Sarabun', sans-serif; }
-.timer-box { background: var(--text); color: white; border-radius: 10px; padding: 6px 12px; text-align: center; min-width: 52px; }
+.game-title { font-size: 0.85rem; font-weight: 700; line-height: 1.2; color: white; }
+.game-subtitle { font-size: 0.7rem; color: rgba(255,255,255,0.5); font-family: 'Sarabun', sans-serif; }
+.timer-box { background: #bed860; color: #18321b; border-radius: 10px; padding: 6px 12px; text-align: center; min-width: 52px; }
 .timer-val { font-size: 1.1rem; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1; }
-.timer-lbl { font-size: 0.55rem; color: rgba(255,255,255,0.5); letter-spacing: 1px; }
-.timer-box.urgent { background: var(--red); animation: pulse 0.5s ease infinite alternate; }
+.timer-lbl { font-size: 0.55rem; color: rgba(24,50,27,0.6); letter-spacing: 1px; }
+.timer-box.urgent { background: var(--red); color: white; animation: pulse 0.5s ease infinite alternate; }
+.back-btn.dark { border-color: rgba(255,255,255,0.2); color: white; }
 @keyframes pulse { from{opacity:1} to{opacity:0.6} }
 .game-body { width: 100%; max-width: 480px; padding: 16px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
 
@@ -141,7 +159,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-se
 .word-card.placed-2 { border-color: rgba(69,123,157,0.5); background: rgba(69,123,157,0.06); }
 .word-card.placed-3 { border-color: rgba(233,196,106,0.6); background: rgba(233,196,106,0.1); }
 .submit-wrap { padding-bottom: 24px; }
-.submit-btn { width: 100%; padding: 15px; background: var(--text); color: white; border: none; border-radius: 14px; font-family: 'Prompt', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: var(--shadow); }
+.submit-btn { width: 100%; padding: 15px; background: #18321b; color: white; border: none; border-radius: 14px; font-family: 'Prompt', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: var(--shadow); }
 .submit-btn:active { transform: scale(0.98); }
 
 /* Ghost */
@@ -149,11 +167,13 @@ body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-se
 
 /* RESULT */
 #result-screen { background: var(--bg); padding: 0; justify-content: flex-start; }
-.result-header { width: 100%; background: var(--text); color: white; padding: 28px 20px 32px; text-align: center; }
+.result-header { width: 100%; color: #18321b; padding: 28px 20px 24px; text-align: center; transition: background 0.3s; }
+.result-svg-wrap { display: flex; justify-content: center; margin-bottom: 10px; }
+.result-svg-wrap svg { width: auto; height: 110px; }
 .result-emoji { font-size: 56px; margin-bottom: 8px; display: block; animation: bounceIn 0.5s ease; }
 @keyframes bounceIn { 0%{transform:scale(0)} 60%{transform:scale(1.2)} 100%{transform:scale(1)} }
-.result-heading { font-size: 1.5rem; font-weight: 800; margin-bottom: 4px; }
-.result-level-name { font-size: 0.8rem; color: rgba(255,255,255,0.5); font-family: 'Sarabun', sans-serif; }
+.result-heading { font-size: 1.5rem; font-weight: 800; margin-bottom: 4px; color: #18321b; }
+.result-level-name { font-size: 0.8rem; color: rgba(24,50,27,0.6); font-family: 'Sarabun', sans-serif; }
 .result-body { width: 100%; max-width: 480px; padding: 20px 16px; display: flex; flex-direction: column; gap: 14px; overflow: visible; }
 .score-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; box-shadow: var(--shadow); }
 .score-stat { text-align: center; }
@@ -178,8 +198,8 @@ body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-se
 .explain-btn { width: 100%; padding: 13px; background: rgba(45,106,79,0.08); border: 1.5px solid rgba(45,106,79,0.25); border-radius: 12px; color: var(--green); font-family: 'Prompt', sans-serif; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .explain-btn:active { transform: scale(0.98); }
 .result-btns { display: flex; flex-direction: column; gap: 10px; padding-bottom: 32px; }
-.btn-primary { width: 100%; padding: 14px; background: var(--text); color: white; border: none; border-radius: 14px; font-family: 'Prompt', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: var(--shadow); }
-.btn-secondary { width: 100%; padding: 14px; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 14px; font-family: 'Prompt', sans-serif; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.btn-primary { width: 100%; padding: 14px; background: #18321b; color: white; border: none; border-radius: 14px; font-family: 'Prompt', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.2s; box-shadow: var(--shadow); }
+.btn-secondary { width: 100%; padding: 14px; background: var(--surface); color: #323232; border: 1px solid var(--border); border-radius: 14px; font-family: 'Prompt', sans-serif; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
 .btn-primary:active,.btn-secondary:active { transform: scale(0.98); }
 
 /* Modal */
@@ -193,12 +213,12 @@ body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-se
 .explain-item:last-child { border-bottom: none; }
 .explain-term { font-weight: 600; font-size: 0.88rem; margin-bottom: 4px; color: var(--text); font-family: 'Prompt', sans-serif; }
 .explain-text { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
-.modal-close { width: 100%; margin-top: 20px; padding: 13px; background: var(--text); color: white; border: none; border-radius: 12px; font-family: 'Prompt', sans-serif; font-weight: 600; font-size: 0.9rem; cursor: pointer; }
+.modal-close { width: 100%; margin-top: 20px; padding: 13px; background: #18321b; color: white; border: none; border-radius: 12px; font-family: 'Prompt', sans-serif; font-weight: 600; font-size: 0.9rem; cursor: pointer; }
 .lock-modal-inner { text-align: left; }
 .lock-icon { font-size: 48px; margin-bottom: 12px; text-align: center; }
 .lock-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; }
 .lock-desc { font-size: 0.82rem; color: var(--muted); font-family: 'Sarabun', sans-serif; line-height: 1.7; margin-bottom: 16px; }
-.lock-contact-btn { display: block; width: 100%; background: var(--text); color: white; border: none; border-radius: 12px; padding: 13px; font-family: 'Prompt', sans-serif; font-weight: 700; font-size: 0.9rem; cursor: pointer; margin-bottom: 10px; }
+.lock-contact-btn { display: block; width: 100%; background: #18321b; color: white; border: none; border-radius: 12px; padding: 13px; font-family: 'Prompt', sans-serif; font-weight: 700; font-size: 0.9rem; cursor: pointer; margin-bottom: 10px; }
 .feedback-label { font-size: 0.8rem; font-weight: 600; margin-bottom: 5px; display: block; font-family: 'Sarabun', sans-serif; }
 .feedback-textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 12px; font-family: 'Sarabun', sans-serif; font-size: 0.83rem; line-height: 1.6; resize: none; background: var(--card); color: var(--text); margin-bottom: 4px; }
 .feedback-textarea:focus { outline: none; border-color: var(--accent3); }
@@ -242,17 +262,56 @@ body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-se
 /* Level desc banner */
 .level-desc-banner { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; box-shadow: var(--shadow); }
 
+/* Character animation */
+@keyframes charBlobUp{0%{transform:translateY(100%)}55%{transform:translateY(-4px)}70%{transform:translateY(8px)}83%{transform:translateY(-4px)}92%{transform:translateY(2px)}100%{transform:translateY(0)}}
+@keyframes charBlink{0%,88%,100%{transform:scaleY(1)}94%{transform:scaleY(0.05)}}
+@keyframes charPopIn{0%{opacity:0;transform:scale(0.2)}100%{opacity:1;transform:scale(1)}}
+@keyframes charFloat1{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6px) rotate(2deg)}}
+@keyframes charFloat2{0%,100%{transform:translateY(0) rotate(1deg)}50%{transform:translateY(-8px) rotate(-2deg)}}
+#char-svg{animation:charBlobUp 1.2s cubic-bezier(0.34,1.4,0.64,1) 0.2s both}
+#eye-l-g{animation:charBlink 4.5s 2.5s infinite;transform-origin:209.83px 108.24px}
+#eye-r-g{animation:charBlink 4.5s 2.7s infinite;transform-origin:272.86px 108.24px}
+#bubble-g{animation:charPopIn 0.4s cubic-bezier(0.34,1.56,0.64,1) 2.5s both,charFloat2 3s ease-in-out 3s infinite;transform-origin:428.61px 71.8px}
+#slash-g{animation:charPopIn 0.35s cubic-bezier(0.34,1.56,0.64,1) 2.6s both,charFloat1 2.6s ease-in-out 3.1s infinite;transform-origin:109px 70px}
+
 /* Home footer stats */
-.home-footer-stats { display: flex; justify-content: center; gap: 0; margin: 8px 0 4px; width: 100%; background: var(--text); border-radius: 16px; padding: 16px 0; }
+.home-footer-stats { display: flex; justify-content: center; gap: 0; margin: 8px 0 4px; width: 100%; background: #18321b; border-radius: 16px; padding: 16px 0; }
 .home-footer-stats .hero-stat { flex: 1; text-align: center; border-right: 1px solid rgba(255,255,255,0.1); }
 .home-footer-stats .hero-stat:last-child { border-right: none; }
-.home-footer-stats .hero-stat-val { font-size: 1.4rem; font-weight: 700; color: var(--gold); }
-.home-footer-stats .hero-stat-label { font-size: 0.7rem; color: rgba(255,255,255,0.5); font-family: 'Sarabun', sans-serif; }
+.home-footer-stats .hero-stat-val { font-size: 1.4rem; font-weight: 700; color: #bed860; }
+.home-footer-stats .hero-stat-label { font-size: 0.7rem; color: rgba(255,255,255,0.4); font-family: 'Sarabun', sans-serif; }
 
 /* Contact footer */
-.contact-footer { display: block; width: 100%; text-align: center; background: var(--text); color: rgba(255,255,255,0.6); font-family: 'Sarabun', sans-serif; font-size: 0.78rem; padding: 12px; border-radius: 16px; margin-top: 8px; text-decoration: none; }
+.contact-footer { display: block; width: 100%; text-align: center; background: #18321b; color: rgba(255,255,255,0.4); font-family: 'Sarabun', sans-serif; font-size: 0.78rem; padding: 12px; border-radius: 16px; margin-top: 8px; text-decoration: none; }
 .contact-footer:hover { color: white; }
 
+/* ── Level-header rolling character ── */
+/* The character starts positioned at right edge of header (translateX=0).
+   It then rolls rightward off screen over ~1.8s with increasing rotate.
+   transform-origin is center of the 92.8×92.8 SVG circle = 46.4 46.4 (set inline). */
+@keyframes lcRollOut {
+  0%   { transform: translateX(0px)   rotate(0deg);   }
+  15%  { transform: translateX(30px)  rotate(45deg);  }
+  35%  { transform: translateX(80px)  rotate(110deg); }
+  55%  { transform: translateX(130px) rotate(160deg); }
+  75%  { transform: translateX(175px) rotate(220deg); }
+  100% { transform: translateX(230px) rotate(280deg); }
+}
+
+/* LEAF ANIMATION */
+.result-leaf {
+  position: absolute;
+  width: 18px; height: 15px;
+  pointer-events: none;
+  z-index: 10;
+  will-change: transform, opacity;
+}
+@keyframes leafFloat1 {
+  0%   { offset-distance: 0%;   opacity: 0;   transform: rotate(0deg) scale(1); }
+  5%   { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0;   transform: rotate(var(--leaf-rot)) scale(0.85); }
+}
 /* Confetti */
 .confetti-wrap { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 9999; }
 .confetti-dot { position: absolute; width: 8px; height: 8px; border-radius: 2px; top: -20px; animation: confettiFall linear forwards; }
@@ -271,13 +330,34 @@ body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-se
 <!-- HOME -->
 <div class="screen active" id="home-screen">
   <div class="home-hero">
-    <div class="hero-badge">CFP · ชุดวิชาที่ 1</div>
-    <h1 class="hero-title">ฝึกจำด้วยเกม</h1>
-    <p class="hero-sub">การวางแผนการเงินส่วนบุคคล</p>
+    <svg id="char-svg" style="display:block;width:100%;background:#18321b" viewBox="0 0 483 340" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="clipL"><circle cx="209.83" cy="108.24" r="26"/></clipPath>
+        <clipPath id="clipR"><circle cx="272.86" cy="108.24" r="26"/></clipPath>
+      </defs>
+      <rect x="0" y="0" width="483" height="70" fill="#18321b"/>
+      <path fill="#BED860" d="M482.85,340V202.69c-49.32-81.8-139.02-136.51-241.5-136.51S49.17,120.89-0.15,202.69V340H482.85z"/>
+      <g id="eye-l-g"><circle fill="white" cx="209.83" cy="108.24" r="27.96"/><g clip-path="url(#clipL)"><circle id="pL" fill="#18321B" cx="213" cy="118" r="18.71"/></g></g>
+      <g id="eye-r-g"><circle fill="white" cx="272.86" cy="108.24" r="27.96"/><g clip-path="url(#clipR)"><circle id="pR" fill="#18321B" cx="276" cy="118" r="18.71"/></g></g>
+      <path id="mouth" fill="none" stroke="#18321B" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" d="M218.91,146.09c0,0,5.92,8.73,21.33,10.93s23.53-4.52,23.53-4.52"/>
+      <text id="char-title" x="241.5" y="218" text-anchor="middle" font-family="Prompt,sans-serif" font-size="48" font-weight="800" fill="#18321B" opacity="0">ฝึกจำด้วยเกม</text>
+      <text id="char-sub" x="241.5" y="256" text-anchor="middle" font-family="Sarabun,sans-serif" font-size="22" fill="#18321B" opacity="0">การวางแผนการเงินส่วนบุคคล</text>
+      <rect id="char-badge-bg" x="161" y="268" width="161" height="32" rx="16" fill="#18321B" opacity="0"/>
+      <text id="char-badge" x="241.5" y="290" text-anchor="middle" font-family="Prompt,sans-serif" font-size="16" font-weight="600" fill="#BED860" opacity="0">CFP · ชุดวิชาที่ 1</text>
+      <g id="bubble-g" style="opacity:0;transform-origin:428.61px 71.8px">
+        <path fill="white" d="M428.61,37.57c-18.91,0-34.23,15.33-34.23,34.23c0,5.29,1.2,10.3,3.35,14.78l-8.33,10.33l13.52-2.49c6.27,7.12,15.45,11.62,25.69,11.62c18.91,0,34.23-15.33,34.23-34.23C462.84,52.9,447.52,37.57,428.61,37.57z"/>
+        <path fill="#18321B" d="M421.02,83.42l1.87-6.94l7.43,2l-1.87,6.94L421.02,83.42z M440.46,65.07c-0.61,2.27-2.22,4.21-4.82,5.81c-2.6,1.6-4.15,3.31-4.64,5.13L423.56,74c0.39-1.62,1.24-3.05,2.55-4.3c0.05-0.03,0.38-0.25,0.98-0.67c0.6-0.41,1.5-1.04,2.7-1.86c1.34-0.88,2.16-1.83,2.43-2.87c0.38-1.4-0.59-2.42-2.9-3.04c-2.11-0.57-4.44-0.53-7.01,0.1l1.82-6.75c2.98-0.21,5.88,0.06,8.69,0.81c2.48,0.67,4.48,1.79,6.01,3.35C440.54,60.66,441.08,62.76,440.46,65.07z"/>
+      </g>
+      <g id="slash-g" style="opacity:0;transform-origin:109px 70px">
+        <line stroke="white" stroke-width="5" stroke-linecap="round" x1="119.26" y1="70.27" x2="115.8" y2="49.29"/>
+        <line stroke="white" stroke-width="5" stroke-linecap="round" x1="109.76" y1="77.21" x2="92.92" y2="59.78"/>
+        <line stroke="white" stroke-width="5" stroke-linecap="round" x1="98.33" y1="85.66" x2="76.94" y2="81.3"/>
+      </g>
+    </svg>
   </div>
   <div class="chapter-list">
     <div class="chapter-card" onclick="openChapter(0)">
-      <div class="chapter-icon">📋</div>
+      <div class="chapter-icon" style="background:#bed860">📋</div>
       <div class="chapter-info">
         <div class="chapter-name">LOS 1 — การวางแผนการเงิน</div>
         <div class="chapter-meta">2 ด่าน · ฟรีทั้งหมด</div>
@@ -285,7 +365,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-se
       <div class="chapter-arrow">›</div>
     </div>
     <div class="chapter-card" onclick="openChapter(1)">
-      <div class="chapter-icon">💰</div>
+      <div class="chapter-icon" style="background:#deb5d5">💰</div>
       <div class="chapter-info">
         <div class="chapter-name">LOS 2 — บริหารสภาพคล่อง</div>
         <div class="chapter-meta">2 ด่าน · ฟรีทั้งหมด</div>
@@ -293,7 +373,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-se
       <div class="chapter-arrow">›</div>
     </div>
     <div class="chapter-card" onclick="openChapter(2)">
-      <div class="chapter-icon">🧮</div>
+      <div class="chapter-icon" style="background:#8e7eba">🕐</div>
       <div class="chapter-info">
         <div class="chapter-name">LOS 3 — มูลค่าเงินตามเวลา</div>
         <div class="chapter-meta">3 ด่าน · ฟรีทั้งหมด</div>
@@ -301,7 +381,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-se
       <div class="chapter-arrow">›</div>
     </div>
     <div class="chapter-card" onclick="openChapter(3)">
-      <div class="chapter-icon">📁</div>
+      <div class="chapter-icon" style="background:#bed860">📁</div>
       <div class="chapter-info">
         <div class="chapter-name">LOS 4 — รวบรวมข้อมูลทางการเงิน</div>
         <div class="chapter-meta">2 ด่าน · ฟรีทั้งหมด</div>
@@ -309,7 +389,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-se
       <div class="chapter-arrow">›</div>
     </div>
     <div class="chapter-card" onclick="openChapter(4)">
-      <div class="chapter-icon">📊</div>
+      <div class="chapter-icon" style="background:#deb5d5">📊</div>
       <div class="chapter-info">
         <div class="chapter-name">LOS 5 — วิเคราะห์ข้อมูลส่วนบุคคล</div>
         <div class="chapter-meta">2 ด่าน · ฟรีทั้งหมด</div>
@@ -317,7 +397,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-se
       <div class="chapter-arrow">›</div>
     </div>
     <div class="chapter-card" onclick="openChapter(5)">
-      <div class="chapter-icon">🧾</div>
+      <div class="chapter-icon" style="background:#8e7eba">🧾</div>
       <div class="chapter-info">
         <div class="chapter-name">LOS 6-8 — ภาษีเงินได้บุคคลธรรมดา</div>
         <div class="chapter-meta">6 ด่าน · มีบางด่านล็อค</div>
@@ -335,11 +415,29 @@ body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-se
 
 <!-- LEVEL SELECT -->
 <div class="screen" id="level-screen">
-  <div class="level-header">
+  <div class="level-header" id="level-header" style="position:relative;overflow:hidden;min-height:70px">
     <button class="back-btn" onclick="showScreen('home-screen')">←</button>
     <div class="level-header-info">
       <div class="level-header-title" id="chapter-title">—</div>
       <div class="level-header-sub" id="chapter-sub">—</div>
+    </div>
+    <!-- Rolling character -->
+    <!-- lc-stage spans full header width so the SVG can start anywhere and roll off right edge -->
+    <div id="lc-stage" style="position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;overflow:hidden">
+      <svg id="lc-svg" style="position:absolute;top:50%;width:64px;height:64px;overflow:visible" viewBox="0 0 92.8 92.8" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="lc-clipL"><circle cx="40.3" cy="13.4" r="6.1"/></clipPath>
+          <clipPath id="lc-clipR"><circle cx="54.1" cy="13.4" r="6.1"/></clipPath>
+        </defs>
+        <g id="lc-char" style="transform-origin:46.4px 46.4px">
+          <circle fill="#BED860" cx="46.4" cy="46.4" r="45.2"/>
+          <circle fill="white" cx="40.3" cy="13.4" r="6.1"/>
+          <circle fill="white" cx="54.1" cy="13.4" r="6.1"/>
+          <g clip-path="url(#lc-clipL)"><circle id="lc-pL" fill="#18321B" cx="41.3" cy="13.4" r="4.1"/></g>
+          <g clip-path="url(#lc-clipR)"><circle id="lc-pR" fill="#18321B" cx="55.4" cy="14.3" r="4.1"/></g>
+          <path id="lc-mouth" fill="none" stroke="#18321B" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" d="M42.3,23.1c0,0,1.8,1.5,5.2,1s4.7-2.4,4.7-2.4"/>
+        </g>
+      </svg>
     </div>
   </div>
   <div class="level-list" id="level-list"></div>
@@ -363,8 +461,9 @@ body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-se
 
 <!-- RESULT -->
 <div class="screen" id="result-screen">
-  <div class="result-header">
-    <span class="result-emoji" id="result-emoji">🎉</span>
+  <div class="result-header" id="result-header" style="position:relative;overflow:hidden">
+    <div id="leaf-container" style="position:absolute;inset:0;pointer-events:none;overflow:hidden"></div>
+    <div class="result-svg-wrap" id="result-svg-wrap"></div>
     <div class="result-heading" id="result-heading">ยอดเยี่ยม!</div>
     <div class="result-level-name" id="result-level-name">—</div>
   </div>
@@ -822,7 +921,43 @@ const LEVELS = [
 ];
 
 // ============================================================
-// SOUND
+// CHARACTER ANIMATION
+// ============================================================
+(function(){
+  const pL=document.getElementById('pL');
+  const pR=document.getElementById('pR');
+  const mouth=document.getElementById('mouth');
+  if(!pL||!pR) return;
+  const mD="M218.91,146.09c0,0,5.92,8.73,21.33,10.93s23.53-4.52,23.53-4.52";
+  const mU="M218.91,149c0,0,5.92,4,21.33,5s23.53,1,23.53,1";
+  const mDn="M218.91,143c0,0,5.92,13,21.33,16s23.53-8,23.53-8";
+  function mv(lx,ly,rx,ry,m){
+    pL.setAttribute('cx',lx);pL.setAttribute('cy',ly);
+    pR.setAttribute('cx',rx);pR.setAttribute('cy',ry);
+    if(m)mouth.setAttribute('d',m);
+  }
+  function fadeEl(id,op){const el=document.getElementById(id);if(el){el.style.transition='opacity 0.5s';el.style.opacity=op;}}
+  const seq=[
+    {t:400, lx:213,ly:92, rx:276,ry:92, m:mU},
+    {t:1400,lx:213,ly:128,rx:276,ry:128,m:mDn},
+    {t:1900,lx:213,ly:118,rx:276,ry:118,m:mD},
+    {t:2000,lx:196,ly:118,rx:259,ry:118,m:mU},
+    {t:2700,lx:228,ly:118,rx:291,ry:118,m:mDn},
+    {t:3400,lx:213,ly:118,rx:276,ry:118,m:mD},
+  ];
+  seq.forEach(({t,lx,ly,rx,ry,m})=>setTimeout(()=>mv(lx,ly,rx,ry,m),t));
+  setTimeout(()=>{
+    fadeEl('char-title',1);fadeEl('char-sub',1);
+    setTimeout(()=>{fadeEl('char-badge-bg',1);fadeEl('char-badge',1);},200);
+  },1900);
+  setTimeout(()=>{
+    setInterval(()=>{
+      mv(196,118,259,118,mU);
+      setTimeout(()=>mv(228,118,291,118,mDn),700);
+      setTimeout(()=>mv(213,118,276,118,mD),1400);
+    },6000);
+  },4500);
+})();
 // ============================================================
 const _ac = new (window.AudioContext || window.webkitAudioContext)();
 function playDrop() {
@@ -876,13 +1011,17 @@ function openChapter(idx) {
   document.getElementById('chapter-sub').textContent = ch.sub;
   const list = document.getElementById('level-list');
   list.innerHTML = '';
+  const numColors = ['#18321b','#bed860','#8e7eba','#deb5d5'];
+  const numTextColors = ['white','#18321b','white','#18321b'];
   ch.levels.forEach((lvlIdx, i) => {
     const lvl = LEVELS[lvlIdx];
     const item = document.createElement('div');
     const unlocked = checkUnlocked();
+    const bg = numColors[i % 4];
+    const tc = numTextColors[i % 4];
     item.className = 'level-item' + ((lvl.free || unlocked) ? '' : ' locked');
     item.innerHTML = `
-      <div class="level-num">${i+1}</div>
+      <div class="level-num" style="background:${bg};color:${tc}">${i+1}</div>
       <div class="level-item-info">
         <div class="level-item-name">${lvl.name}</div>
         <div class="level-item-meta">${lvl.sub} · ${lvl.time}s</div>
@@ -893,9 +1032,139 @@ function openChapter(idx) {
     list.appendChild(item);
   });
   showScreen('level-screen');
+  lcStartRoll();
 }
 
 function confirmBack() { clearInterval(timerInterval); showScreen('level-screen'); }
+
+// ============================================================
+// LEVEL HEADER CHARACTER — ROLL OUT ANIMATION
+// ============================================================
+(function(){
+  // --- Pupil offsets relative to eye CENTER for each clock angle ---
+  // During a rightward roll the body rotates CW.
+  // We counter-rotate the pupils so they appear to track a fixed forward direction,
+  // but with a slight lag so it looks natural (eyes drag behind the spin).
+  // Angle = body rotation in degrees (0=upright, 90=lying right, 180=upside down …)
+  // Pupil offset r=2 unit in SVG space, rotated opposite to body.
+  const R = 2.2; // pupil offset radius
+  function pupilAt(bodyDeg) {
+    // pupils look slightly in direction of motion (right = +x) but rotate counter to body
+    // net visual angle: fixed rightward gaze slightly, lagging body rotation
+    const gaze = 30; // degrees: pupils stay pointed "right-ish" (30° from right)
+    const rad = (gaze - bodyDeg * 0.35) * Math.PI / 180;
+    const dx = R * Math.cos(rad);
+    const dy = R * Math.sin(rad);
+    return {
+      lx: 40.3 + dx, ly: 13.4 + dy,
+      rx: 54.1 + dx, ry: 13.4 + dy
+    };
+  }
+
+  // Mouth paths (SVG d= relative to the circle's coordinate system)
+  const mSmile   = "M42.3,23.1c0,0,1.8,1.5,5.2,1s4.7-2.4,4.7-2.4";
+  const mOh      = "M45,23 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0"; // small "O" — surprised
+
+  let timers = [];
+  function clearTimers() { timers.forEach(clearTimeout); timers = []; }
+  function at(fn, ms) { timers.push(setTimeout(fn, ms)); }
+
+  function setPupils(lx, ly, rx, ry) {
+    const pL = document.getElementById('lc-pL');
+    const pR = document.getElementById('lc-pR');
+    if (pL) { pL.setAttribute('cx', lx); pL.setAttribute('cy', ly); }
+    if (pR) { pR.setAttribute('cx', rx); pR.setAttribute('cy', ry); }
+  }
+  function setMouth(d) {
+    const m = document.getElementById('lc-mouth');
+    if (m) m.setAttribute('d', d);
+  }
+
+  window.lcStartRoll = function() {
+    clearTimers();
+
+    const charEl  = document.getElementById('lc-char');
+    const svgEl   = document.getElementById('lc-svg');
+    const stage   = document.getElementById('lc-stage');
+    const header  = document.getElementById('level-header');
+    if (!charEl || !svgEl || !stage || !header) return;
+
+    // Measure header width
+    const hW          = header.getBoundingClientRect().width;
+    const charRadius  = 32; // half of 64px display
+
+    // Start: ball center at ~54% of header width
+    const startLeft   = hW * 0.54 - charRadius; // `left` CSS value for svg element
+    // End: ball fully off right edge (center past hW + radius)
+    const endLeft     = hW + charRadius + 10;
+
+    // Travel distance & rotation
+    const travel      = endLeft - startLeft;
+    const circ        = 2 * Math.PI * charRadius;
+    const rotDeg      = (travel / circ) * 360;
+
+    // --- Reset ---
+    charEl.style.animation  = 'none';
+    charEl.style.transform  = 'rotate(0deg)';
+    // Position svg via left + translateY(-50%) to vertically center
+    svgEl.style.transition  = 'none';
+    svgEl.style.left        = startLeft + 'px';
+    svgEl.style.transform   = 'translateY(-50%)';
+    void svgEl.offsetWidth; // force reflow
+
+    setMouth(mSmile);
+    const p0 = pupilAt(0);
+    setPupils(p0.lx, p0.ly, p0.rx, p0.ry);
+
+    // Eyes glance right just before rolling
+    at(() => {
+      const p1 = pupilAt(18);
+      setPupils(p1.lx, p1.ly, p1.rx, p1.ry);
+    }, 200);
+
+    // Mouth surprise
+    at(() => setMouth(mOh), 400);
+
+    // Build dynamic keyframes for rotation on lc-char
+    let styleTag = document.getElementById('lc-dynamic-kf');
+    if (!styleTag) {
+      styleTag = document.createElement('style');
+      styleTag.id = 'lc-dynamic-kf';
+      document.head.appendChild(styleTag);
+    }
+    styleTag.textContent = `
+      @keyframes lcSpin {
+        from { transform: rotate(0deg); }
+        to   { transform: rotate(${rotDeg}deg); }
+      }
+    `;
+
+    // Start roll at 580ms — slightly slower (2300ms)
+    const rollDuration = 2300;
+    at(() => {
+      // Animate LEFT on svg element — clipped by parent overflow:hidden
+      svgEl.style.transition = `left ${rollDuration}ms cubic-bezier(0.25,0,0.55,1)`;
+      svgEl.style.left       = endLeft + 'px';
+
+      // Spin lc-char in sync
+      charEl.style.animation = `lcSpin ${rollDuration}ms cubic-bezier(0.25,0,0.55,1) forwards`;
+      charEl.style.transformOrigin = '46.4px 46.4px';
+
+      // Pupil + mouth updates while rolling
+      const steps = 22;
+      for (let i = 1; i <= steps; i++) {
+        const frac = i / steps;
+        const deg  = frac * rotDeg;
+        at(() => {
+          const p = pupilAt(deg);
+          setPupils(p.lx, p.ly, p.rx, p.ry);
+          if (deg > 60 && deg < rotDeg * 0.72) setMouth(mOh);
+          else if (deg >= rotDeg * 0.72)        setMouth(mSmile);
+        }, frac * rollDuration);
+      }
+    }, 580);
+  };
+})();
 
 // ============================================================
 // START LEVEL
@@ -1204,6 +1473,18 @@ function tickTimer() {
   }
 }
 
+// SVG illustrations for each result grade (inline from uploaded files)
+const RESULT_SVG = {
+  bad: `<svg version="1.1" viewBox="0 0 150 110" xmlns="http://www.w3.org/2000/svg"><style>.rs1a{opacity:.42}.rs1b{fill:none;stroke:#8B4A80;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10}.rs1c{fill:#BED860}.rs1d{fill:none;stroke:#18321B;stroke-width:1.7521;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10}.rs1e{fill:#18321B}.rs1f{fill:#fff}.rs1g{fill:none;stroke:#18321B;stroke-width:2.1609;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10}.rs1h{fill:#C8C8C8}.rs1i{fill:#8E7EBA}.rs1j{fill:#B2A7D0}.rs1k{fill:#DDD8EA}.rs1l{fill:#7C5B47}.rs1m{fill:none;stroke:#18321B;stroke-width:.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10}</style><g><g class="rs1a"><path class="rs1b" d="M72.5,98c4.9,1.5,9.8,2.8,14.9,3.7"/><path class="rs1b" d="M91.1,96.1c4.9,1.5,9.8,2.8,14.9,3.7"/><path class="rs1b" d="M54,100.4c2.9,.8,5.7,1.7,8.5,2.6"/><path class="rs1b" d="M13.9,99.8c7.2,2.6,14.6,4.8,22.2,6.2"/><path class="rs1b" d="M16.5,87.5c-4.9-1-9.8-2.4-14.6-3.8"/><path class="rs1b" d="M119.8,94.3c4.4,1.4,4.4,1.4,8.9,2.7"/><path class="rs1b" d="M14.7,76.2c2.3,1,4.7,1.8,7.1,2.6"/><path class="rs1b" d="M138.7,85.2c6.8,1.8,1.3,.7,8.1,2.4"/></g><g><path class="rs1c" d="M29.6,48.2c0,25,20.3,39.1,45.2,39.1s45.2-14.1,45.2-39.1S99.9,2.9,74.9,2.9S29.6,23.2,29.6,48.2z"/><path class="rs1d" d="M88.1,33.1c1.5,.3,3.1,.1,4.5-.6"/><g><path class="rs1e" d="M100.8,10.9C95.1,9.5,85.1,7.5,76.6,8C72,8.3,67.5,8.8,63,9.4c-3.5,.5-7.1,1-10.6,1.7c-1.4,.3-2.7,.6-4.1,.9c-1.9,.4-3.7,.9-5.3,2.2c0,0-.1,.1-.1,.1c-1.3,1-2.3,2.4-2.7,4c-.1,.2-.1,.4-.1,.5c.1,.6,1,.4,1.4,.3c.1,0,12.8-4.6,35.4-6c15.4-1,25.6,2,31.8,5.1C105.6,14.6,104.8,13.4,100.8,10.9z"/></g><path class="rs1f" d="M66,34.5c.3-1.8-.1-3.6-.6-5.3c-.5-1.7-.7-3.5-1.1-5.2c-.1-.3-.2-.6-.4-.6c-.3,0-.4,.4-.5,.7c-.4,2.4-.2,5-.4,7.4c-.1,1.4-.3,2.9,.5,4.1c.3,.4,.7,.7,1.1,.7C65.3,36.2,65.8,35.3,66,34.5z"/><path class="rs1f" d="M61.2,36.6c.2-1.1,0-2.2-.3-3.2c-.1-.4-.6-2-1.1-1c-.7,1.3-1.3,3.5-.3,4.8c.2,.3,.5,.5,.8,.5C60.7,37.8,61.1,37.2,61.2,36.6z"/><path class="rs1g" d="M104.8,64.8c1.1,2.7,5.3,14.2,5.3,14.2s5.7,.1,7.4,1.9c1.4,1.5,2.1,3.7,1.8,5.7c-.1,.4-.2,.9-.4,1.2c-.3,.6-.9,1-1.5,1.3c-1.1,.6-2.4,.7-3.6,.9c-3.5,.4-7,.7-10.5,.7c-3.2,0-6.3,.5-9.3-.8c-.8-.3-1.7-.8-2.1-1.7c-2.1-5.2-5.7-16.8-5.7-16.8"/><path class="rs1g" d="M115.8,60.8c1.1,2.7,7.2,17.8,7.2,17.8s5.7,.1,7.4,1.9c1.4,1.5,2.1,3.7,1.8,5.7c-.1,.4-.2,.9-.4,1.2c-.3,.6-.9,1-1.5,1.3c-1.1,.6-2.4,.7-3.6,.9c-3.5,.4-9.4,.4-12.9,.4"/><path class="rs1g" d="M84,53.4c2.4-2.9,6.1-6.5,8.3-6.6c3-.2,5.9,4.4,7.3,6.6"/><path class="rs1g" d="M98.6,51.8c2.3-2.5,5.1-4.9,6.9-5c1.6-.1,3,1,4.4,2.5"/><path class="rs1g" d="M72.5,74.3c0,0,1-2.6,2.3-5.4"/><path class="rs1g" d="M68.8,42.2c0,0,1,6,9.5,9.8c13.2,6,21.3,1.1,23.1,1.4c.9,.2,1.8,1,1.7,1.9c0,.2-.1,.3,0,.5c.1,.4,.6,.6,1,.6c.9,.2,2,.8,1.9,1.7c0,.4-.4,.9-.3,1.3c.1,.4,.5,.7,.8,1c.7,.7,.6,1.9,.2,2.7c-.7,1.2-5.7,4.3-7,5c-11.1,5.8-22.3,2.4-30.2-1.8c-9.6-5.1-11.1-15.6-11.1-15.6"/><path class="rs1g" d="M107.8,51.3c-.4,.5-.7,1.1-.5,1.7c.2,.9,1.3,1.3,2.2,1.6c-.6,.5-.7,1.4-.4,2.1c.4,.7,1.3,1,2,.7c-.5,.2-.6,1.5-.5,1.9c.1,.6,.6,1.2,1,1.6c1.3,1.1,3.2,.6,4.3-.3c3.8-2.9,4.9-12,3-13.2C114.3,44.4,108.2,50.8,107.8,51.3z"/><path class="rs1e" d="M45.4,13.6c-.3-.9-.6-1.7-1-2.6c-.1-.4-.3-.7-.6-1c-.3-.3-.8-.4-1.3-.5c-.7-.1-1.4-.1-2.1-.1c-.3,0-.6,0-.9,.2c-.4,.3-.6,.9-.4,1.3s.5,.9,.9,1.2c.9,.8,2,1.3,3.2,1.5c-.9-.4-1.9-.6-2.8-.8c-1-.2-1.9-.3-2.9,0c-.9,.2-1.8,.8-2.3,1.6c-.2,.3-.3,.7-.1,1c.2,.5,.7,.7,1.2,.8c1.6,.4,3.2,.6,4.8,.6c.8,0,1.7-.1,2.4-.5c.7-.4,1.3-1.1,1.3-1.9"/><line class="rs1d" x1="93.9" y1="22.4" x2="99.4" y2="22.4"/><line class="rs1d" x1="84.9" y1="22.5" x2="80" y2="22.8"/></g><g><ellipse class="rs1h" cx="40.2" cy="93.3" rx="16.2" ry="5"/><ellipse class="rs1f" cx="40.2" cy="90.6" rx="19.5" ry="6"/><ellipse class="rs1h" cx="40.2" cy="90.6" rx="11.7" ry="3.6"/><path class="rs1i" d="M48.9,88c0,0-.2,3.9-8.7,3.9c-8.8,0-8.5-3.9-8.5-3.9l-.9-12.5h18.9L48.9,88z"/><ellipse class="rs1j" cx="40.2" cy="75.6" rx="9.4" ry="2.7"/><ellipse class="rs1k" cx="40.2" cy="75.3" rx="8.4" ry="2.1"/><g><path class="rs1l" d="M33.3,76.6c1.5,.5,4,.9,6.9,.9c2.7,0,5.2-.3,6.7-.8c-1.5-.5-4-.9-6.9-.9C37.3,75.7,34.8,76.1,33.3,76.6z"/></g><path class="rs1i" d="M32.7,84.1c-.7,0-1.3-.4-1.9-.8c-.2-.1-.3-.2-.5-.4C30.1,82.7,30,82.3,30,82c-.1-.6-.2-1.2,0-1.7c.3-.5,1-1,1.7-.8l-.3-1.9c-.9-.1-1.9-.1-2.6,.3c-.7,.5-.9,1.3-.9,2.1c0,.8,0,1.5,.1,2.3c.1,.5,.1,1.1,.4,1.6c.7,1.4,2.7,2.1,4.4,1.7"/><path class="rs1m" d="M51,89.2c.6,.4,.9,.9,.9,1.4c0,2-5.2,3.6-11.7,3.6s-11.7-1.6-11.7-3.6c0-.6,.5-1.2,1.3-1.7"/></g></g></svg>`,
+
+  ok: `<svg version="1.1" viewBox="0 0 192 116" xmlns="http://www.w3.org/2000/svg"><style>.rs2a{fill:#C7919D}.rs2b{fill:#E6ECEA}.rs2c{fill:#8A6D5B}.rs2d{fill:#7B6949}.rs2e{fill:#A396C7}.rs2f{fill:#9889C0}.rs2g{fill:#8675A0}.rs2h{opacity:.52}.rs2i{opacity:.34;fill:#746092}.rs2j{fill:none;stroke:#18321B;stroke-width:1.6604;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10}.rs2k{fill:#BED860}.rs2l{fill:#fff}.rs2m{fill:#18321B}.rs2n{fill:#DEB5D5}.rs2o{fill:#ECF3D1}.rs2p{fill:none;stroke:#ECF3D1;stroke-width:.5981;stroke-linecap:round;stroke-miterlimit:10}.rs2q{opacity:.53}.rs2r{fill:none;stroke:#BED860;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10}</style><g><polygon class="rs2a" points="153.7,5.3 156.6,7 149.1,7"/><polygon class="rs2b" points="153.7,5.8 156.6,7.4 149.1,7.4"/></g><g><path class="rs2c" d="M19.8,110.9l-2.3-.9c-1.3-.5-1.9-2-1.4-3.3l3.3-8.3c.5-1.3,2-1.9,3.3-1.4l2.3,.9c1.3,.5,1.9,2,1.4,3.3l-3.3,8.3C22.6,110.8,21.1,111.4,19.8,110.9z"/><path class="rs2c" d="M147.3,109.9l-2.3,1c-1.3,.5-2.8-.1-3.3-1.4l-3.4-8.2c-.5-1.3,.1-2.8,1.4-3.3l2.3-1c1.3-.5,2.8,.1,3.3,1.4l3.4,8.2C149.2,107.9,148.6,109.3,147.3,109.9z"/><path class="rs2d" d="M163.8,107.4l-2.4,.5c-1.4,.3-2.7-.6-3-1.9l-1.9-8.7c-.3-1.4,.6-2.7,1.9-3l2.4-.5c1.4-.3,2.7,.6,3,1.9l1.9,8.7C166,105.8,165.1,107.1,163.8,107.4z"/><path class="rs2d" d="M34.1,107.9l-2.4-.8c-1.3-.5-2-1.9-1.6-3.2l2.9-8.4c.5-1.3,1.9-2,3.2-1.6l2.4,.8c1.3,.5,2,1.9,1.6,3.2l-2.9,8.4C36.8,107.6,35.4,108.3,34.1,107.9z"/><g><polygon class="rs2e" points="25.5,64.3 12.4,69.7 46.8,66.3"/><path class="rs2e" d="M178.9,13.5C173,8.4,157.7,6.7,150,6.7c-27.3,0-67.5,.1-94.7,.1c-4.2,0-8.5,0-12.6,1.1c-7.5,2-13.7,7.6-17.5,14.4c-3.8,6.8-5.4,14.6-5.8,22.3c-.5,8.6,1.2,18.5,8.6,23c2,.7,4.1,1.4,6.1,2.1c6.3,2.2,12.7,4.4,19,6.6c8.5,2.9,30,5.9,38.6,8.8c8.5,2.9,17,5.9,25.5,8.8c3.7,1.3,7.6,3.2,11.5,3.6c6.8,.7,13.8,.7,20.6-.2c2.6-.3,5.2-.8,7.6-1.7c1.7-.6,3.8-1.6,5.1-2.8c1.2-1.2,1.7-3.5,2.4-5c1.5-3.8,3-7.6,4.4-11.4c5.4-14.5,10.9-29.5,10.5-45C179.1,24.3,184.2,18.2,178.9,13.5z"/><path class="rs2f" d="M159.3,101.8H22c-9.9,0-17.9-8-17.9-17.9v0c0-9.9,8.8-17.1,18.7-17.1L159.3,66V101.8z"/><path class="rs2g" d="M172.4,14.6c-1.3,1.5-2,3.4-2.6,5.3c-5.1,15.1-8.2,30.8-9.2,46.7c-6.9-.3-14,2.4-18.8,7.4c-4.8,5-7.2,12.3-6,19.2c.3,1.8,.9,3.6,2,5c2.8,3.5,7.9,4,12.3,3.9c3.6-.1,7.5,.1,11.1,0c3-.1,6-.7,8.4-2.5c2.5-1.9,3.5-5.1,4.4-8.1c2.9-10.1,5.9-20.2,8.8-30.3c2.2-7.7,4.5-15.4,5.3-23.4c.6-6.1,.3-11.3-3.2-16.5C181.9,16.6,177.9,8.3,172.4,14.6z"/></g></g><g class="rs2h"><path class="rs2i" d="M119.9,66.7c-.5,.1-1,.4-1.3,.7c-1.3,1-2.4,1.8-3.8,2.6c-2.2,1.3-4.2,2.8-5.7,4.9c-6.8,9.4-18.7,14.9-31.2,15.9c-7.8,.6-15.2-1-21.7-4.3c.2,1.1,.5,2.2,1.2,3.1c.8,1.1,1.9,1.9,3.1,2.5c3.8,2,8.1,2.8,12.4,2.8c4.3,0,8.5-.7,12.7-1.3c2.9-.5,5.8-.9,8.6-2.1c2.6-1.1,5-2.7,7.3-4.4c3.7-2.7,7.3-5.4,10.4-8.8c1-1.1,2-2.3,3.2-3.3c1.3-1,3-2.2,4.6-2.6c1.8-.4,3.6-.3,5.4-.4c1.5-.1,3-.3,4.5-.3c2.4-.1,4.9,.1,7.2-.7c.4-.2,.9-.4,1.1-.8c.2-.4,.2-1-.1-1.2c-.3-.2-.7-.2-1.1-.2c-1.8,.2-3.6,.3-5.4,.3c-1.7,0-3.4-.3-5.1-.5c-1.2-.1-2.5-.3-3.5-1c-.6-.4-1.1-1-1.8-1.2C120.5,66.6,120.2,66.6,119.9,66.7z"/></g><path class="rs2j" d="M136.9,47.7c0-2.2-.9-4.8-4.7-5.6c-1.5-.3-3.1,.2-4.2,1.2s-2.2,3.9-2.2,3.9s-2.4-.8-4.3-1.5"/><path class="rs2k" d="M34.1,53.7c1.8,22.6,21.5,39.5,44.1,37.7c12.5-1,24.4-6.4,31.2-15.9c5.5-7.6,12.7-4.7,13.8-14.7c3.2-29.7-24-46.3-48.1-46.3C51.1,14.6,32.3,31.1,34.1,53.7z"/><g><g><g><circle class="rs2l" cx="52.1" cy="76.4" r="4.9"/></g><g><circle class="rs2l" cx="66.3" cy="79.4" r="5.8"/></g></g></g><path class="rs2j" d="M58.6,69.7c0,0,.6,.6,1.8,.9"/><circle class="rs2m" cx="51.1" cy="78.3" r="2.7"/><circle class="rs2m" cx="65.6" cy="81" r="3.5"/><path class="rs2j" d="M122.5,68.6c5.9,.5,10.6,.6,11.8,.6c1.2,0,2.6-.6,3.6-1.3c.4-.3,.8-.7,1.1-1.1c1.6-1.8,2.7-4,3.6-6.3c.7-1.5,1.3-3.1,1.6-4.7c.3-1.6,1.7-7.4-4.4-8.7c-1.5-.3-3.1,.2-4.2,1.2s-1.8,2.4-2.2,3.9c-3,.9-6.3,.7-9.4,.4c-.8-.1-1.8-.2-2.4-.8c-.3-.3-.5-.8-.7-1.2c-.8-1.9-1.7-3.8-2.7-5.6"/><g><path class="rs2j" d="M98.2,64.3c3-1.1,6.2-1.9,9.3-2.5c4.2-.8,10.5-2.4,11.9-.3c.8,1.1-.8,1.2-.5,1.8c.2,.6,1.4,1.1,1.9,1.6c.8,1,1.4,2.2,1.4,3.5c-.1,2-1.7,3.7-3.6,4.6c-1.9,.8-3.9,1-6,1.2c-4.7,.5-9.4,1.3-14,2.4"/><path class="rs2j" d="M120.7,65.1c-1,.3-2.1,.5-3.2,.5"/><path class="rs2j" d="M122,69.2c-1.1,.7-3.2,1.3-4.4,1.4"/></g><g><path class="rs2j" d="M39.1,37.4c6.7-.1,8.5,1.7,10.4,2c1.7,.2,3.3,.5,4.9-.4c.8-.4,1.4-1.3,1.4-2.2c0,0,3.2-.9,3.5-1.2c.6-.5,1.3-1.1,1.3-1.9c0-.3,.3-2.9-2.3-4.3c-3.1-1.8-11.2-1.6-14.8,.3"/><path class="rs2j" d="M60.1,33.7c-2-.5-4.2-.7-6.3-.5"/><path class="rs2j" d="M55.2,36.6c-1.1-.2-2.2-.4-3.4-.4"/></g><g><polygon class="rs2l" points="152.9,6.3 146.2,16.7 144.9,16.7 151.7,6.3"/><polygon class="rs2n" points="152,6.3 145.2,17.1 119.7,17.1 127.2,6.3"/><polygon class="rs2a" points="127.2,6.3 128.9,5.3 153.7,5.3 152,6.3"/><polygon class="rs2o" points="153.7,5.3 152,6.3 152.9,6.3 153.7,5.8"/><g><line class="rs2p" x1="129.3" y1="8.2" x2="125.4" y2="14"/><line class="rs2p" x1="143.5" y1="9.7" x2="141.6" y2="12.8"/><polygon class="rs2o" points="129.7,12.7 131.6,9.6 135.4,9.6 133.6,12.7"/><line class="rs2p" x1="141.1" y1="8.2" x2="137.6" y2="14"/></g></g><g class="rs2q"><path class="rs2r" d="M62.5,107.9c4.9,1.5,9.8,2.8,14.9,3.7"/><path class="rs2r" d="M81,106.1c4.9,1.5,9.8,2.8,14.9,3.7"/><path class="rs2r" d="M42.5,109c2.9,.8,5.7,1.7,8.5,2.6"/><path class="rs2r" d="M105.7,106.6c4.4,1.4,4.4,1.4,8.9,2.7"/><path class="rs2r" d="M125.1,107.9c6.8,1.8,1.3,.7,8.1,2.4"/></g></svg>`,
+
+  perfect: `<svg version="1.1" viewBox="0 0 198 130" xmlns="http://www.w3.org/2000/svg"><style>.rs3a{fill:none;stroke:#18321B;stroke-width:2.6962;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10}.rs3b{fill:#BED860}.rs3c{fill:#fff}.rs3d{fill:none;stroke:#18321B;stroke-width:2.1861;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10}.rs3e{fill:#18321B}.rs3f{fill:#E9B5D5}.rs3g{fill:#FEF7D8}.rs3h{fill:#CA6850}.rs3i{fill:#D17C67}.rs3j{fill:#E6B5D5}.rs3k{fill:#DFDB50}</style><path class="rs3a" d="M134.2,67.2c8.7-9.8,16.3-20.7,22.5-32.3c2.8-5.3,6.4-11.5,12.5-11.9c5-.3,9.3,4.1,10.5,8.9c1.2,4.8-.1,9.9-1.8,14.6c-3.2,8.7-8.1,16.7-12.9,24.7c-9.7,16-19.5,31.9-29.2,47.9"/><g><path class="rs3b" d="M151.2,94.8c-2.6-33.3-31.7-58.3-65.1-55.7c-33.3,2.6-58.3,31.7-55.7,65.1c.5,6.9,2.2,13.3,4.8,19.3h111.2C150.2,114.7,152,105,151.2,94.8z"/></g><g><g><g><circle class="rs3c" cx="104.5" cy="59.7" r="7.6"/></g><g><circle class="rs3c" cx="87.3" cy="61.1" r="7.6"/></g></g></g><path class="rs3d" d="M90.8,71c0,0,1.7,2.3,6,2.7c4.2,.4,6.4-1.5,6.4-1.5"/><circle class="rs3e" cx="104.5" cy="60.7" r="5.1"/><circle class="rs3e" cx="86.9" cy="61" r="5.1"/><g><path class="rs3a" d="M35,95.3c-6.5,4.8-11.3,12-7.8,20.3c3.3,7.8,11,9.3,18.5,9.4c9.9,.1,19.8-.3,29.6-.9c1-.1,2-.1,2.8-.6c2.1-1.1,2.6-3.9,2.1-6.2c-2.3-9.9-12.6-9.8-20.6-11c-3.1-.5-6.1-1.1-9-2.4c-.7-.3-1.5-.7-2-1.3c-.5-.6-.8-1.5-.5-2.2"/><path class="rs3a" d="M78.8,115.2c-2.9-1-6-1.4-9.1-1.2"/></g><path class="rs3f" d="M184.3,53.4c0,0-.9,1.3-12.7,1.3c-11.8,0-13.2-1.3-13.2-1.3l-4-38.1h34.4L184.3,53.4z"/><path class="rs3a" d="M161.8,31.3c2.1-.1,4.2,.1,6.3,.6c.6,.1,1.3,.3,1.8,.7c1.3,1.1,1,3.2-.1,4.4s-2.7,1.8-4.2,2.5c-.4,.2-.8,.4-1.1,.7c-.6,.6-.8,1.5-1.1,2.2c-.7,1.7-2.3,2.9-4,3.6c-1.7,.7-3.6,.8-5.4,1"/><path class="rs3a" d="M182.9,30.1c-.9,.1-1.7,.3-2.3,.9c-.6,.7-1.2,1.5-1.7,2.3c-1.1,1.9-1.5,4.1-1.6,6.2c-.1,1.2,0,2.4,.4,3.4c.9,2,3.4,3.6,5.6,3c5.5-1.5,9.3-5.9,6.7-11.7c-.1-.2-.2-.4-.3-.6c0-.5,.4-.8,.6-1.2c.7-1.6-.7-3.1-1.9-3.8c-.4-.2-.9-.6-1.4-.6c-.6,0-.6,.3-1,.8c-.6,.8-1.7,1.1-2.7,1.3C183.3,30,183.1,30.1,182.9,30.1z"/><ellipse class="rs3g" cx="171.6" cy="15.3" rx="17.2" ry="2"/><path class="rs3h" d="M91,8.6L71.6,44.7c0,0,10.3,3.2,22.7,2.6c14.1-.8,16.2-2.6,16.2-2.6L91,8.6z"/><g><circle class="rs3i" cx="82.3" cy="36.5" r="4.4"/><circle class="rs3i" cx="96.5" cy="40.4" r="4.4"/><path class="rs3i" d="M97.3,27.6c0,2.4,2,4.4,4.4,4.4c.6,0,1.2-.1,1.7-.3l-4.2-7.8C98.1,24.7,97.3,26.1,97.3,27.6z"/><path class="rs3i" d="M89.1,20.5c-2.4,0-4.4,2-4.4,4.4s2,4.4,4.4,4.4s4.4-2,4.4-4.4S91.5,20.5,89.1,20.5z"/></g><path class="rs3j" d="M50.5,43.3l-5.4-5c.8-2.6,1.1-5.4,.7-8.3c-1.5-10.3-11-17.6-21.4-16.1c-10.4,1.5-17.6,11-16.1,21.4c1.5,10.3,11,17.6,21.4,16.1c5.6-.8,10.3-4,13.2-8.3L50.5,43.3z"/><g><path class="rs3k" d="M21,28.6c.5,.8,.9,1.6,1.4,2.5c.3-2.3,1-4.6,2.1-6.6c.4,1.3,.8,2.5,1.1,3.8c0-2.2,.5-4.5,1.5-6.5c1,2,2,3.9,3,5.9c.1,.1,.1,.3,.3,.3c.3,.2,.7-.1,.9-.4c.6-.8,1-1.7,1.3-2.6c1.1,2.7,1.9,5.6,1.6,8.4C33.9,38,29.4,44,24.1,41.8C19.6,40,18.8,32.2,21,28.6z"/><path class="rs3h" d="M23.3,32.3c.3,.5,.6,1,.9,1.5c.2-1.4,.6-2.9,1.3-4.1c.2,.8,.5,1.6,.7,2.4c0-1.4,.3-2.8,1-4c.6,1.2,1.3,2.4,1.9,3.7c0,.1,.1,.2,.2,.2c.2,.1,.4-.1,.6-.3c.4-.5,.6-1,.8-1.6c.7,1.7,1.2,3.5,1,5.3c-.2,2.9-3.1,6.6-6.4,5.3C22.4,39.5,21.9,34.6,23.3,32.3z"/></g></svg>`
+};
+
+// BG colors per grade
+const RESULT_BG = { bad: 'rgb(237,215,232)', ok: 'rgb(233,242,203)', perfect: 'rgb(255,242,203)' };
+
 // ============================================================
 // RESULT
 // ============================================================
@@ -1214,13 +1495,15 @@ function showResult() {
   document.getElementById('r-score').textContent = `${score}/${maxScore}`;
   document.getElementById('r-correct').textContent = `${correctCount}/${totalWords}`;
   document.getElementById('r-time').textContent = elapsedTime + 's';
-  let emoji, heading;
-  if (ratio === 1) { emoji = '🎉'; heading = 'สมบูรณ์แบบ!'; }
-  else if (ratio >= 0.7) { emoji = '👍'; heading = 'ทำได้ดี!'; }
-  else if (ratio >= 0.5) { emoji = '💪'; heading = 'พยายามต่อไป!'; }
-  else { emoji = '📚'; heading = 'ต้องฝึกอีกหน่อย'; }
-  document.getElementById('result-emoji').textContent = emoji;
+
+  let grade, heading;
+  if (ratio === 1)       { grade = 'perfect'; heading = 'สมบูรณ์แบบ!'; }
+  else if (ratio >= 0.5) { grade = 'ok';      heading = 'พยายามต่อไป!'; }
+  else                   { grade = 'bad';     heading = 'ต้องฝึกอีกหน่อย!'; }
+
   document.getElementById('result-heading').textContent = heading;
+  document.getElementById('result-header').style.background = RESULT_BG[grade];
+  document.getElementById('result-svg-wrap').innerHTML = RESULT_SVG[grade];
 
   buildReviewBoard();
   showingCorrect = false;
@@ -1232,6 +1515,79 @@ function showResult() {
   document.getElementById('explain-btn').style.display = myAnswers.some(a => a.desc) ? '' : 'none';
   showScreen('result-screen');
   if (ratio === 1) spawnConfetti();
+  if (grade !== 'perfect') setTimeout(spawnLeaves, 300);
+}
+
+// ============================================================
+// LEAF ANIMATION
+// ============================================================
+const LEAF_SVG = `<svg viewBox="0 0 13.2 11.1" xmlns="http://www.w3.org/2000/svg"><path fill="#7C5B47" d="M3.5,3.9c0,0,4.9-1.6,6.3,1.6s2.6,4.9,2.6,4.9s-6-0.3-7.4-1.8S3.5,3.9,3.5,3.9z"/><path fill="none" stroke="#18321B" stroke-width="0.75" stroke-linecap="round" stroke-linejoin="round" d="M9.7,8.8c0,0-6.8-4.5-8.6-7.7"/></svg>`;
+
+function spawnLeaves() {
+  const container = document.getElementById('leaf-container');
+  if (!container) return;
+  container.innerHTML = '';
+
+  const W = container.offsetWidth  || 360;
+  const H = container.offsetHeight || 200;
+
+  // Single leaf following the red-dashed path:
+  // enters left → dips slightly down → sweeps up → loops (clockwise) → sweeps up again → dips down → exits right
+  // Built as a smooth cubic bezier S-curve with embedded loop — no straight segments
+  const leafDefs = [
+    { dur: 3200, delay: 150, rot: 340 },
+  ];
+
+  leafDefs.forEach(def => {
+    // All coordinates are relative to container W×H
+    // The path mirrors the red dashed line: gentle sine-like wave with a clockwise loop in the middle
+    const p = (fx, fy) => `${(fx * W).toFixed(1)},${Math.min(fy * H, H * 0.78).toFixed(1)}`;
+
+    // Key waypoints (as fractions of W, H):
+    // A: start (off-screen left)  → slight dip
+    // B: sweep up
+    // C: top of loop entry
+    // D: loop bottom
+    // E: loop top again (exit)
+    // F: sweep up further
+    // G: dip down toward exit
+    // H: off-screen right
+
+    const path = [
+      `M ${(-20).toFixed(1)},${(H * 0.45).toFixed(1)}`,
+      // dip down gently
+      `C ${p(0.08, 0.55)} ${p(0.16, 0.56)} ${p(0.22, 0.50)}`,
+      // sweep up
+      `C ${p(0.28, 0.44)} ${p(0.32, 0.32)} ${p(0.38, 0.30)}`,
+      // begin loop — curve right and down into the loop
+      `C ${p(0.43, 0.28)} ${p(0.50, 0.20)} ${p(0.52, 0.28)}`,
+      // loop bottom (go right and down, curving back left)
+      `C ${p(0.54, 0.36)} ${p(0.50, 0.44)} ${p(0.44, 0.40)}`,
+      // loop exit — curve back up and right
+      `C ${p(0.38, 0.36)} ${p(0.42, 0.25)} ${p(0.50, 0.26)}`,
+      // sweep up toward upper right
+      `C ${p(0.58, 0.27)} ${p(0.64, 0.28)} ${p(0.68, 0.32)}`,
+      // dip back down
+      `C ${p(0.76, 0.38)} ${p(0.86, 0.46)} ${p(0.94, 0.50)}`,
+      // exit off right
+      `C ${p(0.97, 0.52)} ${p(1.00, 0.53)} ${(W + 25).toFixed(1)},${(H * 0.54).toFixed(1)}`,
+    ].join(' ');
+
+    const leaf = document.createElement('div');
+    leaf.className = 'result-leaf';
+    leaf.innerHTML = LEAF_SVG;
+    leaf.style.cssText = `
+      position: absolute;
+      top: 0; left: 0;
+      width: 18px; height: 15px;
+      pointer-events: none;
+      offset-path: path('${path}');
+      offset-rotate: auto;
+      --leaf-rot: ${def.rot}deg;
+      animation: leafFloat1 ${def.dur}ms cubic-bezier(0.42,0,0.58,1) ${def.delay}ms both;
+    `;
+    container.appendChild(leaf);
+  });
 }
 
 function buildReviewBoard() {

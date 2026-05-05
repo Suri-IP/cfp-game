@@ -2019,6 +2019,18 @@ function submitFeedbackUnlock() {
     localStorage.setItem('cfp_unlocked', '1');
   } catch(e) {}
 
+  // Send to Google Forms (no-cors, fire and forget)
+  try {
+    const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSe7J1u8PIuUfXaCWS6ecUNG2VNBPNEQZqKK6M4541uWJNyoWw/formResponse';
+    const body = new FormData();
+    body.append('entry.1829967480', text);
+    body.append('entry.61759061', score);
+    body.append('entry.687176357', los);
+    body.append('entry.1330323067', levels);
+    body.append('entry.1475802110', 'ไม่ระบุ');
+    fetch(formUrl, { method: 'POST', mode: 'no-cors', body });
+  } catch(e) {}
+
   // Unlock all levels in UI
   document.querySelectorAll('.level-item.locked').forEach(el => {
     el.classList.remove('locked');
@@ -2027,8 +2039,6 @@ function submitFeedbackUnlock() {
   });
 
   closeModal('lock-modal');
-
-  // Re-render level list to reflect unlocked state
   openChapter(currentChapterIdx);
 
   // Show thank you toast

@@ -2028,21 +2028,15 @@ function submitFeedbackUnlock() {
     localStorage.setItem('cfp_unlocked', '1');
   } catch(e) {}
 
-  // Send to Google Forms via GET (no CORS issue)
+  // Send to Google Apps Script
   try {
-    const base = 'https://docs.google.com/forms/d/e/1FAIpQLSe7J1u8PIuUfXaCWS6ecUNG2VNBPNEQZqKK6M4541uWJNyoWw/formResponse';
-    const params = new URLSearchParams({
-      'entry.495346173': name,
-      'entry.270585560': email,
-      'entry.1829967480': text,
-      'entry.61759061': score,
-      'entry.687176357': los,
-      'entry.1330323067': levels,
-      'entry.1475802110': 'ไม่ระบุ',
-      'submit': 'Submit'
+    const scriptUrl = 'https://script.google.com/macros/s/AKfycbxDo4XW5P6clEpPJ0KR6zxnh5XQk4Igm5ZKB7f9zklDnooc3XgrZBI2OWq92djXvi-f/exec';
+    fetch(scriptUrl, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, text, score, los, levels })
     });
-    const img = new Image();
-    img.src = base + '?' + params.toString();
   } catch(e) {}
 
   // Unlock all levels in UI

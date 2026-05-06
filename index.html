@@ -407,7 +407,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-se
     <div class="home-footer-stats">
       <div class="hero-stat"><div class="hero-stat-val">15</div><div class="hero-stat-label">ด่าน</div></div>
       <div class="hero-stat"><div class="hero-stat-val">6</div><div class="hero-stat-label">บทเรียน</div></div>
-      <div class="hero-stat"><div class="hero-stat-val">13</div><div class="hero-stat-label">ฟรี</div></div>
+      <div class="hero-stat"><div class="hero-stat-val">12</div><div class="hero-stat-label">ฟรี</div></div>
     </div>
     <a href="https://www.facebook.com/profile.php?id=61587584991093&mibextid=wwXIfr" target="_blank" class="contact-footer">ติดต่อผู้พัฒนาเกม</a>
   </div>
@@ -500,7 +500,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-se
     <div class="lock-modal-inner">
       <div class="lock-icon" style="text-align:center">🔓</div>
       <div class="lock-title">รบกวนกรอกคำแนะนำเพื่อปลดล็อคด่านที่เหลือ</div>
-      <div class="lock-desc">คำแนะนำของท่านมีคุณค่ามากสำหรับการพัฒนาเกมนี้ กรุณากรอกอย่างน้อย 80 ตัวอักษร</div>
+      <div class="lock-desc">คำแนะนำของท่านมีคุณค่ามากสำหรับการพัฒนาเกมนี้ กรุณากรอกอย่างน้อย 50 ตัวอักษร</div>
 
       <label class="feedback-label">ชื่อ *</label>
       <input class="feedback-input" id="fb-name" type="text" placeholder="ชื่อของท่าน" style="margin-bottom:12px">
@@ -508,9 +508,9 @@ body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-se
       <label class="feedback-label">อีเมล *</label>
       <input class="feedback-input" id="fb-email" type="email" placeholder="email@example.com" style="margin-bottom:14px">
 
-      <label class="feedback-label">คำแนะนำหรือความคิดเห็น *</label>
+      <label class="feedback-label">สิ่งที่ไม่ชอบ, สิ่งที่ชอบ และอื่นๆ *</label>
       <textarea class="feedback-textarea" id="fb-text" rows="4" placeholder="เขียนความคิดเห็น คำแนะนำ หรือสิ่งที่อยากให้ปรับปรุง..." oninput="updateCharCount()"></textarea>
-      <div class="feedback-charcount" id="fb-charcount">0 / 80 ตัวอักษร</div>
+      <div class="feedback-charcount" id="fb-charcount">0 / 50 ตัวอักษร</div>
 
       <div class="feedback-row">
         <div class="feedback-field">
@@ -914,7 +914,7 @@ const LEVELS = [
   },
   {
     name: "ตีความตัวแปร — วางแผนเกษียณ", sub: "LOS 3 · จับกลุ่ม",
-    time: 120, free: true, mode: "group",
+    time: 120, free: false, mode: "group",
     levelDesc: `<div style="font-family:'Sarabun',sans-serif;font-size:0.85rem;line-height:1.8">
       <b style="color:var(--text);font-family:'Prompt',sans-serif">โจทย์</b><br>
       <span style="color:var(--text)">คุณมานะอายุ 35 ปี ต้องการมีเงิน 10,000,000 บาท ตอนอายุ 60 ปี โดยจะออมเงินทุกปลายปี อัตราผลตอบแทนคาดหวัง 7% ต่อปี ขณะนี้มีเงินออมอยู่แล้ว 500,000 บาท อยากทราบว่าต้องออมเพิ่มปีละเท่าไหร่</span>
@@ -2008,8 +2008,8 @@ function finishQuiz(lvl) {
 function updateCharCount() {
   const len = document.getElementById('fb-text').value.length;
   const el = document.getElementById('fb-charcount');
-  el.textContent = `${len} / 80 ตัวอักษร`;
-  el.className = 'feedback-charcount' + (len >= 80 ? ' ok' : '');
+  el.textContent = `${len} / 50 ตัวอักษร`;
+  el.className = 'feedback-charcount' + (len >= 50 ? ' ok' : '');
 }
 
 function submitFeedbackUnlock() {
@@ -2021,9 +2021,9 @@ function submitFeedbackUnlock() {
   const levels = document.getElementById('fb-levels').value;
   const err = document.getElementById('fb-error');
 
-  if (!name || !email || text.length < 80 || !score || !los || !levels) {
+  if (!name || !email || text.length < 50 || !score || !los || !levels) {
     err.style.display = 'block';
-    err.textContent = 'กรุณากรอกให้ครบทุกช่อง และเขียนคำแนะนำอย่างน้อย 80 ตัวอักษร';
+    err.textContent = 'กรุณากรอกให้ครบทุกช่อง และเขียนอย่างน้อย 50 ตัวอักษร';
     return;
   }
   err.style.display = 'none';
@@ -2037,7 +2037,7 @@ function submitFeedbackUnlock() {
 
   // Send to Google Apps Script
   try {
-    const scriptUrl = 'https://script.google.com/macros/s/AKfycbxDo4XW5P6clEpPJ0KR6zxnh5XQk4Igm5ZKB7f9zklDnooc3XgrZBI2OWq92djXvi-f/exec';
+    const scriptUrl = 'https://script.google.com/macros/s/AKfycbwUgx2RgTysgHR5AP2QBA4-Sf1rI8yXhtRTR4NFlEW51WVqdW1SLLm4OknkbVYF90-x/exec';
     fetch(scriptUrl, {
       method: 'POST',
       mode: 'no-cors',
